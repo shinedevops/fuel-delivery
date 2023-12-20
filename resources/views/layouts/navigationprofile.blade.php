@@ -36,7 +36,7 @@
                                 <div class="person-dropdown-header">
                                     <div class="profile-menus">
                                         {{-- <a href="#" class="header-profile-link active"> --}}
-                                        <a href="{{ route('editprofile', ['id' => auth()->user()->id]) }}" class="header-profile-link active">
+                                        <a href="{{ route('setting-profile', ['id' => auth()->user()->id]) }}" class="header-profile-link active">
 
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                 height="18" viewBox="0 0 15 18" fill="none">

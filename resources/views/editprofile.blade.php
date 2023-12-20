@@ -88,7 +88,8 @@
                                                         <p>ExxonMobil</p>
                                                     </div>
                                                 </div>
-                                                <a href="" class="button edit-proile-btn">Edit profile</a>
+                                                <a href="{{ route('edit-profile', ['id' => auth()->user()->id]) }}" class="button edit-proile-btn">Edit profile</a>
+
                                             </div>
                                             <div class="edit-detail-pl">
                                                 <ul>

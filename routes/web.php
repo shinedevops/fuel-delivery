@@ -31,7 +31,8 @@ Route::get('/completeprofile', [UserDetailController::class, 'completeProfile'])
 Route::get('/userdashboard', [UserDetailController::class, 'userdash'])->name('user.dashboard');
 Route::post('/store_user_details', [UserDetailController::class, 'store'])->name('store.userDetails');
 
-Route::get('editprofile/{id}', [ProfileController::class, 'edit'])->name('editprofile');
+Route::get('setting/profile/{id}', [ProfileController::class, 'edit'])->name('setting-profile');
+Route::get('edit/profile/{id}', [ProfileController::class, 'editprofile'])->name('edit-profile');
 
 
 
