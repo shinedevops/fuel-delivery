@@ -13,19 +13,76 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     //
-    public function edit()
+    public function editsetting(Request $request, $id)
     {
         $user = auth()->user();
         $userDetails = $user->userDetails;
 
         return view('editprofile', compact('user', 'userDetails'));
     }
-    public function editprofile()
+    public function editprofile(Request $request, $user_id)
     {
         $user = auth()->user();
-        $userDetails = $user->userDetails;
+        $userDetails = null;
+        $errorMessage = null;
+        
+        try {
+            $userDetails = $user->userDetails;  // relationship
 
-        return view('editprofiletwo', compact('user', 'userDetails'));
+            if (!$userDetails) {
+                throw new \Exception("User details not found.");
+            }
+        } catch (\Throwable $e) {
+            $errorMessage = "No Data found";
+            $userDetails = new UserDetail();
+        }
+
+        return view('editprofiletwo', compact('user', 'userDetails', 'errorMessage'));
+    }
+
+
+
+    // update profile
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:14',
+            'date' => 'required|date',
+            'license' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Update the name and email in the User model
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
+
+        // Create or update the UserDetails model
+        $userDetails = $user->userDetails()->firstOrNew([]);
+
+        // Update UserDetails fields
+        $userDetails->phone_number = $request->input('phone');
+        $userDetails->date = $request->input('date');
+
+        // Handle file upload if present
+        if ($request->hasFile('license')) {
+            $licencePath = $request->file('license')->store('uploads', 'public');
+            $userDetails->driving_licence = $licencePath;
+        }
+
+        // Save UserDetails changes
+        $userDetails->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
 }

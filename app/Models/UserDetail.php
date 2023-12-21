@@ -16,6 +16,8 @@ class UserDetail extends Model
         'complete_address',
         'phone_number',
         'company_size',
+        'driving_licence',
+        'date',
     ];
 
 
