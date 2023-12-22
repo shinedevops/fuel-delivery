@@ -50,7 +50,7 @@
                                             <span>Profile Setting</span>
                                         </a>
                                         
-                                        {{-- <a href="#" class="header-profile-link">
+                                        <a href="{{ route('logout') }}" class="header-profile-link">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="19" viewBox="0 0 16 19" fill="none">
                                                 <path
@@ -58,8 +58,8 @@
                                                     fill="#33313F" />
                                             </svg>
                                             <span>Log out</span>
-                                        </a> --}}
-                                        <form  class="header-profile-link" id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        </a>
+                                        {{-- <form  class="header-profile-link" id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="19" viewBox="0 0 16 19" fill="none">
@@ -68,7 +68,7 @@
                                                     fill="#33313F" />
                                             </svg>
                                             <button type="submit" style="border: 0ch"><span>Log out</span></button>
-                                        </form>
+                                        </form> --}}
                                     </div>
                                 </div>
                             </ul>

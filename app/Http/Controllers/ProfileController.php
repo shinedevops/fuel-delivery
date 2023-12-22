@@ -51,6 +51,7 @@ class ProfileController extends Controller
             'phone' => 'required|string|max:14',
             'date' => 'required|date',
             'license' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -60,11 +61,18 @@ class ProfileController extends Controller
         // Get the authenticated user
         $user = auth()->user();
 
-        // Update the name and email in the User model
+        if ($request->hasFile('profile')) {
+            $profilePath = $request->file('profile')->store('profile_pics', 'public');
+            $user->profile_path = $profilePath;
+        }
+
         $user->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
         ]);
+
+        $user->save();
+
 
         // Create or update the UserDetails model
         $userDetails = $user->userDetails()->firstOrNew([]);

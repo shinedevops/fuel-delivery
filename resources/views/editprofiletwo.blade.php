@@ -12,13 +12,13 @@
                         <div class="profile-edit-box">
                             <div class="upload-img">
                                 <div class="main-profile-image-box">
-                                    <img src="{{ isset($user->profile_path) ? asset($user->profile_path) : asset('assets/images/table-img1.png') }}" class="main-profile-image">
+                                    <img src="{{ isset($user->profile_path) ? asset('storage/'.$user->profile_path) : asset('assets/images/table-img1.png') }}" class="main-profile-image" alt="profile">
 
                                     <div class="file file--upload">
                                         <label for="input-file">
                                             <i class="fa-solid fa-camera"></i>
                                         </label>
-                                        <input id="input-file" type="file">
+                                        {{-- <input id="input-file" type="file"> --}}
                                     </div>
 
                                 </div>
@@ -28,6 +28,12 @@
                                 <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="input-box">
+                                        <input id="input-file" type="file" hidden name="profile" placeholder="Enter your name" value="{{ $user->profile_path ?? old('name') }}" alt="no profile">
+                                        
+                                        {{-- @if(isset($user->profile_path))
+                                            <img src="{{ asset($user->profile_path) }}" alt="profile image">
+                                        @endif --}}
+
                                         <div class="form-group">
                                             <div class="formfield">
                                                 <input type="text" class="form-control" name="name" placeholder="Enter your name" value="{{ $user->name ?? old('name') }}">
@@ -81,7 +87,8 @@
 
                                         <div class="form-group upload-file">
                                             <label for="upload-file">
-                                                <img src="images/lisence.png" alt="">
+                                                <img src="{{ isset($user->profile_path) ? asset('storage/'.$userDetails->driving_licence) : asset('assets/images/table-img1.png') }}"  alt="profile">
+
                                                 <div class="upload-file-detail">
                                                     <h3>Driving Licence</h3>
                                                     <a href="#">Replace File</a>

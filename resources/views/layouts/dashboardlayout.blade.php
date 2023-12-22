@@ -1,396 +1,268 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Driver edit profile</title>
-    <!-- Custom CSS -->
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('assets/css/login-register.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}"> 
-    <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
-</head>
-
-<body>
-    <div class="main">
-        <section class="dashboard-section">
-            <div class="dashboard-wrapper">
-                
-                @include('layouts.sidebar')
-                <div class="dashboard-content-wrapper">
-                    <div class="db-nav">
-                        <nav class="navbar navbar-expand-lg">
-                            <div class="container">
-                              
-                              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                              </button>
-                              <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                            
-                                <div class="last-nav d-flex">
-                                  <div class="dropdown">
-                                      <div class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                          <div class="user-feed-profile d-flex align-items-center">
-                                              <div class="user-feed-profile-img position-relative">
-                                                  <img src="images/profile.png" class="user-profile" alt="feed-profile">
-                                              <i class="fa-solid fa-chevron-down"></i>
-                                              </div>
-                                              
-                                          </div>
-                                      </div>                
-                                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                        <div class="person-dropdown-header">
-                                          <div class="profile-menus">
-                                              <a href="#" class="header-profile-link active">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
-                                                    <path d="M7.38063 9.1329C5.04716 9.1329 3.15625 7.24199 3.15625 4.90852C3.15625 2.57505 5.04716 0.684143 7.38063 0.684143C9.71409 0.684143 11.605 2.57505 11.605 4.90852C11.605 7.24199 9.71409 9.1329 7.38063 9.1329ZM7.38063 2.31355C5.93227 2.31355 4.76554 3.48028 4.76554 4.92864C4.76554 6.35688 5.93227 7.54373 7.38063 7.54373C8.82899 7.54373 9.99572 6.37699 9.99572 4.92864C9.99572 3.48028 8.82899 2.31355 7.38063 2.31355Z" fill="#122C91"/>
-                                                    <path d="M14.5 17.2398H12.8907V16.234C12.8907 13.3574 10.5371 11.0038 7.66053 11.0038H7.09728C4.22068 11.0038 1.8671 13.3574 1.8671 16.234V17.2398H0.257812V16.234C0.257812 12.4723 3.33557 9.39453 7.09728 9.39453H7.66053C11.4222 9.39453 14.5 12.4723 14.5 16.234V17.2398Z" fill="#122C91"/>
-                                                </svg>
-                                                <span>Profile Setting</span>
-                                              </a>
-                                              <a href="#" class="header-profile-link">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
-                                                    <path d="M7.76797 17.966C7.76797 18.2149 7.66906 18.4537 7.49301 18.6298C7.31696 18.8058 7.07818 18.9047 6.8292 18.9047H1.19658C0.947605 18.9047 0.708825 18.8058 0.532772 18.6298C0.356718 18.4537 0.257812 18.2149 0.257812 17.966V1.0681C0.257812 0.819126 0.356718 0.580346 0.532772 0.404293C0.708825 0.228239 0.947605 0.129333 1.19658 0.129333H6.8292C7.07818 0.129333 7.31696 0.228239 7.49301 0.404293C7.66906 0.580346 7.76797 0.819126 7.76797 1.0681C7.76797 1.31708 7.66906 1.55586 7.49301 1.73191C7.31696 1.90797 7.07818 2.00687 6.8292 2.00687H2.13535V17.0272H6.8292C7.07818 17.0272 7.31696 17.1261 7.49301 17.3021C7.66906 17.4782 7.76797 17.717 7.76797 17.966ZM15.203 9.1603C15.1583 9.04506 15.0913 8.93978 15.0059 8.8505L11.2508 5.09542C11.1633 5.00789 11.0594 4.93846 10.945 4.89109C10.8306 4.84372 10.7081 4.81934 10.5843 4.81934C10.3343 4.81934 10.0945 4.91865 9.91775 5.09542C9.83022 5.18295 9.76079 5.28687 9.71342 5.40123C9.66605 5.51559 9.64167 5.63816 9.64167 5.76195C9.64167 6.01195 9.74098 6.2517 9.91775 6.42848L12.0769 8.57826H4.95166C4.70268 8.57826 4.4639 8.67717 4.28785 8.85322C4.1118 9.02927 4.01289 9.26805 4.01289 9.51703C4.01289 9.76601 4.1118 10.0048 4.28785 10.1808C4.4639 10.3569 4.70268 10.4558 4.95166 10.4558H12.0769L9.91775 12.6056C9.82976 12.6929 9.75992 12.7967 9.71226 12.9111C9.6646 13.0255 9.64006 13.1482 9.64006 13.2721C9.64006 13.396 9.6646 13.5187 9.71226 13.6331C9.75992 13.7475 9.82976 13.8514 9.91775 13.9386C10.005 14.0266 10.1089 14.0965 10.2232 14.1441C10.3376 14.1918 10.4603 14.2163 10.5843 14.2163C10.7082 14.2163 10.8309 14.1918 10.9453 14.1441C11.0597 14.0965 11.1635 14.0266 11.2508 13.9386L15.0059 10.1836C15.0913 10.0943 15.1583 9.989 15.203 9.87376C15.2969 9.64521 15.2969 9.38885 15.203 9.1603Z" fill="#33313F"/>
-                                                </svg>
-                                                <span>Log out</span>
-                                              </a>
-                                          </div>
-                                        </div>
-                                      </ul>
-                                    </div>
-                                </div>
-                                
-                              </div>
-                            </div>
-                          </nav>
-                    </div>
-                    <div class="db-content-main">
-                        <div class="db-edit-content-box">
-                            <div class="driver-left-edit-bx">
-                                <div class="db-heading-bx">
-                                    <h2>Profile</h2>
-                                </div>
-                                <div class="driver-edit-profile-wrapper">
-                                    <div class="driver-edit-box">
-                                        <div class="profile-edit-box">
-                                            <div class="profile-edit-header">
-                                                <div class="profile-edit-name">
-                                                    <img src="images/table-img1.png" alt="" class="edit-pro-img">
-                                                    <div class="edit-heading-bx">
-                                                        <h6>Roger Bergson</h6>
-                                                        <p>ExxonMobil</p>
-                                                    </div>
-                                                </div>
-                                                <a href="" class="button edit-proile-btn">Edit profile</a>
-                                            </div>
-                                            <div class="edit-detail-pl">
-                                                <ul>
-                                                    <li><span class="edit-detail-icon"><i class="fa-solid fa-envelope"></i></span><a href="">rogerbergson@gmail.com</a></li>
-                                                    <li><span class="edit-detail-icon"><i class="fa-solid fa-phone"></i></span><a href="">+1245-1231-123</a></li>
-                                                    <li><span class="edit-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="52" height="13" viewBox="0 0 52 13" fill="none">
-                                                        <path d="M3.7896 12.514H0.0225497V0.877674H3.90891C5.04906 0.877674 6.02823 1.11063 6.84641 1.57654C7.6646 2.03866 8.29149 2.70343 8.7271 3.57086C9.16649 4.43449 9.38619 5.47048 9.38619 6.67881C9.38619 7.89093 9.1646 8.9326 8.72141 9.80381C8.28202 10.675 7.64566 11.3455 6.81232 11.8152C5.97899 12.2811 4.97141 12.514 3.7896 12.514ZM1.77823 10.9799H3.693C4.57937 10.9799 5.31611 10.8133 5.90323 10.4799C6.49035 10.1428 6.92975 9.65608 7.22141 9.01972C7.51308 8.37957 7.65891 7.59927 7.65891 6.67881C7.65891 5.76593 7.51308 4.99131 7.22141 4.35495C6.93353 3.71858 6.50361 3.23563 5.93164 2.90608C5.35967 2.57654 4.64944 2.41177 3.80096 2.41177H1.77823V10.9799ZM11.818 12.622C11.5074 12.622 11.2404 12.5121 11.0169 12.2924C10.7934 12.069 10.6816 11.8 10.6816 11.4856C10.6816 11.175 10.7934 10.9099 11.0169 10.6902C11.2404 10.4667 11.5074 10.3549 11.818 10.3549C12.1286 10.3549 12.3957 10.4667 12.6191 10.6902C12.8426 10.9099 12.9544 11.175 12.9544 11.4856C12.9544 11.694 12.9013 11.8853 12.7953 12.0595C12.693 12.2299 12.5566 12.3663 12.3862 12.4686C12.2157 12.5709 12.0263 12.622 11.818 12.622ZM25.4743 6.69586C25.4743 7.93828 25.247 9.00646 24.7924 9.9004C24.3379 10.7906 23.7148 11.4762 22.9231 11.9572C22.1352 12.4345 21.2394 12.6731 20.2356 12.6731C19.228 12.6731 18.3284 12.4345 17.5368 11.9572C16.7489 11.4762 16.1277 10.7887 15.6731 9.89472C15.2186 9.00078 14.9913 7.93449 14.9913 6.69586C14.9913 5.45343 15.2186 4.38714 15.6731 3.49699C16.1277 2.60305 16.7489 1.91745 17.5368 1.44017C18.3284 0.959113 19.228 0.718583 20.2356 0.718583C21.2394 0.718583 22.1352 0.959113 22.9231 1.44017C23.7148 1.91745 24.3379 2.60305 24.7924 3.49699C25.247 4.38714 25.4743 5.45343 25.4743 6.69586ZM23.7356 6.69586C23.7356 5.74889 23.5822 4.95154 23.2754 4.30381C22.9724 3.6523 22.5557 3.15987 22.0254 2.82654C21.4989 2.48942 20.9023 2.32086 20.2356 2.32086C19.5652 2.32086 18.9667 2.48942 18.4402 2.82654C17.9136 3.15987 17.497 3.6523 17.1902 4.30381C16.8871 4.95154 16.7356 5.74889 16.7356 6.69586C16.7356 7.64283 16.8871 8.44207 17.1902 9.09358C17.497 9.74131 17.9136 10.2337 18.4402 10.5709C18.9667 10.9042 19.5652 11.0709 20.2356 11.0709C20.9023 11.0709 21.4989 10.9042 22.0254 10.5709C22.5557 10.2337 22.9724 9.74131 23.2754 9.09358C23.5822 8.44207 23.7356 7.64283 23.7356 6.69586ZM27.9118 12.622C27.6011 12.622 27.3341 12.5121 27.1106 12.2924C26.8871 12.069 26.7754 11.8 26.7754 11.4856C26.7754 11.175 26.8871 10.9099 27.1106 10.6902C27.3341 10.4667 27.6011 10.3549 27.9118 10.3549C28.2224 10.3549 28.4894 10.4667 28.7129 10.6902C28.9364 10.9099 29.0481 11.175 29.0481 11.4856C29.0481 11.694 28.9951 11.8853 28.889 12.0595C28.7868 12.2299 28.6504 12.3663 28.4799 12.4686C28.3095 12.5709 28.1201 12.622 27.9118 12.622ZM31.46 12.514V0.877674H35.7214C36.5472 0.877674 37.2309 1.01404 37.7726 1.28677C38.3142 1.5557 38.7195 1.92123 38.9885 2.38336C39.2574 2.84169 39.3919 3.35873 39.3919 3.93449C39.3919 4.41934 39.3029 4.82843 39.1248 5.16177C38.9468 5.49131 38.7082 5.75646 38.4089 5.95722C38.1135 6.15419 37.7877 6.29813 37.4316 6.38904V6.50267C37.818 6.52161 38.1949 6.64661 38.5623 6.87767C38.9335 7.10495 39.2404 7.42881 39.4828 7.84927C39.7252 8.26972 39.8464 8.78108 39.8464 9.38336C39.8464 9.97805 39.7063 10.5121 39.426 10.9856C39.1494 11.4553 38.7214 11.8284 38.1419 12.1049C37.5623 12.3777 36.8218 12.514 35.9203 12.514H31.46ZM33.2157 11.0084H35.7498C36.5907 11.0084 37.193 10.8455 37.5566 10.5197C37.9203 10.194 38.1021 9.78677 38.1021 9.29813C38.1021 8.9307 38.0093 8.59358 37.8237 8.28677C37.6381 7.97995 37.3729 7.73563 37.0282 7.55381C36.6873 7.37199 36.282 7.28108 35.8123 7.28108H33.2157V11.0084ZM33.2157 5.91177H35.568C35.9619 5.91177 36.3161 5.83601 36.6305 5.68449C36.9487 5.53298 37.2006 5.32086 37.3862 5.04813C37.5756 4.77161 37.6703 4.44586 37.6703 4.07086C37.6703 3.5898 37.5017 3.18639 37.1646 2.86063C36.8275 2.53487 36.3104 2.37199 35.6135 2.37199H33.2157V5.91177ZM51.1689 5.95722V7.43449H46.0098V5.95722H51.1689Z" fill="#D7D7D7"/>
-                                                        </svg></span><a href="">30/12/1996</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="edit-document-img">
-                                                <h6>Documents</h6>
-                                                <img src="images/lisence.png" class="lisence-img" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="order-detail-wrapper">
-                                <div class="order-detail-header">
-                                    <h6>All Orders</h6>
-                                    <a href="" class="view-all-link">View all</a>
-                                </div>
-                                <div class="order-detail-tab">
-                                    <nav>
-                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                          <button class="nav-link active" id="active-order-tab" data-bs-toggle="tab" data-bs-target="#active-order" type="button" role="tab" aria-controls="active-order" aria-selected="true"><i class="fa-regular fa-circle-dot"></i>Active</button>
-                                          <button class="nav-link" id="completed-order-tab" data-bs-toggle="tab" data-bs-target="#completed-order" type="button" role="tab" aria-controls="completed-order" aria-selected="false"><i class="fa-solid fa-circle-check"></i>Completed</button>
-                                          
-                                      </nav>
-                                      <div class="tab-content" id="nav-tabContent">
-                                        <div class="tab-pane fade show active" id="active-order" role="tabpanel" aria-labelledby="active-order-tab">
-                                            <div class="order-detail-box-wrapper">
-                                                <div class="od-wrapper">
-                                                    <div class="od-box">
-                                                        <div class="order-detail-box">
-                                                            <table>
-                                                                <tbody> 
-                                                                    <tr>
-                                                                        <td style="width: 45%;" ><p class="order-del-title">Order number:</p></td>
-                                                                        <td style="width: 55%;">#123456478</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier name:</p></td>
-                                                                        <td>Justin Vaccaro</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Customer Location:</p></td>
-                                                                        <td>DC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier Location:</p></td>
-                                                                        <td>BC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Pickup Date:</p></td>
-                                                                        <td>30 jan 2023</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Weight:</p></td>
-                                                                        <td>40 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Product Type:</p></td>
-                                                                        <td>Petrol , 25 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td valign=top><p class="order-del-title">Special instructions:</p></td>
-                                                                        <td>This is the address of the White House, but since it is a dummy location.</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="od-box">
-                                                        <div class="order-detail-box">
-                                                            <table>
-                                                                <tbody> 
-                                                                    <tr>
-                                                                        <td style="width: 45%;" ><p class="order-del-title">Order number:</p></td>
-                                                                        <td style="width: 55%;">#123456478</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier name:</p></td>
-                                                                        <td>Justin Vaccaro</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Customer Location:</p></td>
-                                                                        <td>DC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier Location:</p></td>
-                                                                        <td>BC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Pickup Date:</p></td>
-                                                                        <td>30 jan 2023</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Weight:</p></td>
-                                                                        <td>40 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Product Type:</p></td>
-                                                                        <td>Petrol , 25 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td valign=top><p class="order-del-title">Special instructions:</p></td>
-                                                                        <td>This is the address of the White House, but since it is a dummy location.</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="od-box">
-                                                        <div class="order-detail-box">
-                                                            <table>
-                                                                <tbody> 
-                                                                    <tr>
-                                                                        <td style="width: 45%;" ><p class="order-del-title">Order number:</p></td>
-                                                                        <td style="width: 55%;">#123456478</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier name:</p></td>
-                                                                        <td>Justin Vaccaro</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Customer Location:</p></td>
-                                                                        <td>DC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier Location:</p></td>
-                                                                        <td>BC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Pickup Date:</p></td>
-                                                                        <td>30 jan 2023</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Weight:</p></td>
-                                                                        <td>40 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Product Type:</p></td>
-                                                                        <td>Petrol , 25 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td valign=top><p class="order-del-title">Special instructions:</p></td>
-                                                                        <td>This is the address of the White House, but since it is a dummy location.</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="od-box">
-                                                        <div class="order-detail-box">
-                                                            <table>
-                                                                <tbody> 
-                                                                    <tr>
-                                                                        <td style="width: 45%;" ><p class="order-del-title">Order number:</p></td>
-                                                                        <td style="width: 55%;">#123456478</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier name:</p></td>
-                                                                        <td>Justin Vaccaro</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Customer Location:</p></td>
-                                                                        <td>DC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier Location:</p></td>
-                                                                        <td>BC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Pickup Date:</p></td>
-                                                                        <td>30 jan 2023</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Weight:</p></td>
-                                                                        <td>40 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Product Type:</p></td>
-                                                                        <td>Petrol , 25 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td valign=top><p class="order-del-title">Special instructions:</p></td>
-                                                                        <td>This is the address of the White House, but since it is a dummy location.</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="od-box">
-                                                        <div class="order-detail-box">
-                                                            <table>
-                                                                <tbody> 
-                                                                    <tr>
-                                                                        <td style="width: 45%;" ><p class="order-del-title">Order number:</p></td>
-                                                                        <td style="width: 55%;">#123456478</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier name:</p></td>
-                                                                        <td>Justin Vaccaro</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Customer Location:</p></td>
-                                                                        <td>DC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Supplier Location:</p></td>
-                                                                        <td>BC 20500United States</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Pickup Date:</p></td>
-                                                                        <td>30 jan 2023</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Weight:</p></td>
-                                                                        <td>40 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><p class="order-del-title">Product Type:</p></td>
-                                                                        <td>Petrol , 25 B</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td valign=top><p class="order-del-title">Special instructions:</p></td>
-                                                                        <td>This is the address of the White House, but since it is a dummy location.</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="completed-order" role="tabpanel" aria-labelledby="completed-order-tab">...</div>
-
-                                      </div>
-                                </div>
-                            </div>
-                        </div>    
-                     </div>
+<div class="db-heading-bx">
+    <h2>Dashboard</h2>
+    <div class="right-db-head">
+        <div class="daterange-dropdown">
+            <p>Date range:</p>
+            <div class="dropdown">
+                <div class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    This Week
+                    <i class="fa-solid fa-chevron-down"></i>
                 </div>
-            </div>
-        </section>
-    </div>
-    <div class="modal fade cstm-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-
-            <div class="modal-body">
-                <div class="addnew-dis-box">
-                    <div  class="popup-btn-close" data-bs-dismiss="modal" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                        <path d="M8.18921 7.8446L13.9092 2.12463C14.0417 1.98245 14.1138 1.79439 14.1104 1.60009C14.1069 1.40579 14.0283 1.22042 13.8909 1.083C13.7535 0.94559 13.5681 0.866887 13.3738 0.863459C13.1795 0.860031 12.9914 0.932151 12.8492 1.06463L7.12927 6.7846L1.40918 1.06463C1.267 0.932151 1.07907 0.860031 0.884766 0.863459C0.690464 0.866887 0.504967 0.94559 0.367554 1.083C0.230141 1.22042 0.1515 1.40579 0.148071 1.60009C0.144643 1.79439 0.216763 1.98245 0.349243 2.12463L6.06921 7.8446L0.349243 13.5646C0.208793 13.7053 0.129883 13.8958 0.129883 14.0946C0.129883 14.2934 0.208793 14.484 0.349243 14.6246C0.490964 14.7635 0.680858 14.8423 0.879272 14.8446C1.07727 14.8403 1.26633 14.7618 1.40918 14.6246L7.12927 8.9046L12.8492 14.6246C12.991 14.7635 13.1809 14.8423 13.3793 14.8446C13.5773 14.8403 13.7663 14.7618 13.9092 14.6246C14.0496 14.484 14.1285 14.2934 14.1285 14.0946C14.1285 13.8958 14.0496 13.7053 13.9092 13.5646L8.18921 7.8446Z" fill="#292929"/>
-                      </svg></div>
-                    <div class="login-header text-center"> 
-                        <h4>Add new dispatcher</h4>
-                    </div>
-                    <form class="addnew-dis-form">
-                        <div class="input-box">
-                            <div class="form-group">
-                                <div class="formfield">
-                                    <input type="text" class="form-control" name="Full Name" placeholder="Full Name">
-                                    <span class="form-icon">
-                                        <i class="fa-solid fa-envelope"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="formfield">
-                                    <input type="email" class="form-control" name="Email ID" placeholder="Email ID">   
-                                    <span class="form-icon">
-                                        <i class="fa-solid fa-lock"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="formfield">
-                                    <input type="text" class="form-control" name="Phone number" placeholder="Phone number">
-                                    <span class="form-icon">
-                                        <i class="fa-solid fa-lock"></i>
-                                    </span>
-                                </div>
-                            </div>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                    <div class="person-dropdown-header">
+                        <div class="profile-menus">
+                            <a href="#" class="header-profile-link active">
+                                <span>This Weeek</span>
+                            </a>
+                            <a href="#" class="header-profile-link">
+                                <span>This Month</span>
+                            </a>
                         </div>
-
-                        <button type="button" class="button primary-btn full-btn">Send Invitation</button>
-                        
-                    </form>
-
-                </div>
+                    </div>
+                </ul>
             </div>
-
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+<div class="db-stats">
+    <div class="stats-box active">
+        <p>Dispatchers</p>
+        <div class="stats-data">
+            <h3>1245</h3>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
+                    fill="none">
+                    <path
+                        d="M33.166 19.4324L29.828 20.346C29.3361 21.5055 29.1252 21.9975 28.6685 23.1921L30.3902 26.2139C30.6361 26.6356 30.5659 27.1626 30.2145 27.4789L27.9657 29.7277C27.6143 30.079 27.0873 30.1493 26.7008 29.9033L23.679 28.1816C22.5194 28.6735 22.0275 28.8844 20.8328 29.3412L19.9193 32.6792C19.7787 33.136 19.3571 33.4522 18.9003 33.4522H15.7028C15.2109 33.4522 14.7892 33.136 14.6838 32.6792L13.7703 29.3412C12.6107 28.8492 12.1188 28.6384 10.9241 28.1816L7.90234 29.9033C7.48069 30.1493 6.95363 30.079 6.6374 29.7277L4.38861 27.4789C4.03724 27.1275 3.96696 26.6004 4.21292 26.2139L5.93465 23.1921C5.44273 22.0326 5.23191 21.5407 4.77512 20.346L1.43708 19.4324C0.980298 19.2919 0.664062 18.8702 0.664062 18.4135V15.216C0.664062 14.7241 0.980298 14.3024 1.43708 14.197L4.77512 13.2834C5.26704 12.1239 5.47787 11.632 5.93465 10.4373L4.21292 7.4155C3.96696 6.99386 4.03724 6.4668 4.38861 6.15056L6.6374 3.90178C6.98877 3.55041 7.51583 3.48013 7.90234 3.72609L10.9241 5.44782C12.0837 4.95589 12.5756 4.74507 13.7703 4.28829L14.6838 0.950249C14.8244 0.493465 15.246 0.177227 15.7028 0.177227H18.9003C19.3922 0.177227 19.8139 0.493465 19.9193 0.950249L20.8328 4.28829C21.9924 4.78021 22.4843 4.99103 23.679 5.44782L26.7008 3.72609C27.1224 3.48013 27.6495 3.55041 27.9657 3.90178L30.2145 6.15056C30.5659 6.50193 30.6361 7.029 30.3902 7.4155L28.6685 10.4373C29.1604 11.5968 29.3712 12.0888 29.828 13.2834L33.166 14.197C33.6228 14.3375 33.939 14.7592 33.939 15.216V18.4135C33.939 18.8702 33.6228 19.2919 33.166 19.4324ZM17.2488 9.41833C13.1729 9.41833 9.87002 12.7212 9.87002 16.7971C9.87002 20.8731 13.1729 24.176 17.2488 24.176C21.3248 24.176 24.6277 20.8731 24.6277 16.7971C24.6277 12.7212 21.3248 9.41833 17.2488 9.41833Z"
+                        fill="CurrentColor" />
+                    <path
+                        d="M17.2997 12.9496C19.4343 12.9496 21.1648 14.6801 21.1648 16.8147C21.1648 18.9493 19.4343 20.6798 17.2997 20.6798C15.165 20.6798 13.4346 18.9493 13.4346 16.8147C13.4346 14.6801 15.165 12.9496 17.2997 12.9496Z"
+                        fill="CurrentColor" />
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="stats-box">
+        <p>Drivers</p>
+        <div class="stats-data">
+            <h3>360</h3>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="36" viewBox="0 0 35 36"
+                    fill="none">
+                    <path
+                        d="M17.5429 0.530518C7.89953 0.530518 0.0820312 8.34802 0.0820312 17.9914C0.0820312 27.6348 7.89953 35.4523 17.5429 35.4523C27.1863 35.4523 35.0038 27.6348 35.0038 17.9914C35.0038 8.34802 27.1863 0.530518 17.5429 0.530518ZM17.5429 3.8564C23.5818 3.8564 28.7309 7.64782 30.7555 12.9766C26.522 11.6407 21.9048 10.5107 17.5429 10.5082C13.181 10.5113 8.56379 11.6409 4.33032 12.9766C6.35492 7.64782 11.504 3.8564 17.5429 3.8564ZM4.00553 22.0838C9.15353 23.183 12.3941 26.757 13.4375 31.5158C8.92462 30.1494 5.36696 26.5988 4.00553 22.0838ZM31.0803 22.0838C29.7189 26.5988 26.1612 30.1494 21.6483 31.5158C22.6917 26.757 25.9323 23.183 31.0803 22.0838Z"
+                        fill="CurrentColor" />
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="stats-box">
+        <p>Suppliers</p>
+        <div class="stats-data">
+            <h3>3546</h3>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="35" viewBox="0 0 33 35"
+                    fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M32.5865 24.0779C32.5865 24.6022 32.3411 25.1265 31.8838 25.4834L23.3095 31.9383L22.0007 32.9311L21.0711 33.5744C19.8701 34.4705 18.3977 34.4705 17.0851 34.0243L12.1733 32.1875L5.72588 29.5549L5.67383 29.1087V25.3831C5.67383 23.0034 7.80438 21.1145 10.422 21.1145C10.6935 21.1145 10.9686 21.1628 11.188 21.2632L16.2671 23.1521L19.3235 24.2936L19.4834 24.3568C19.647 24.4237 19.7809 24.4907 19.8961 24.565C19.528 24.6543 19.238 24.9592 19.1897 25.3533L19.1004 26.1007C19.0707 26.3238 18.9294 26.532 18.7137 26.6733C18.4535 26.8443 18.1374 26.8927 17.8288 26.8034L15.3562 26.0672C14.8653 25.9185 14.3485 26.1974 14.1998 26.6882C14.0548 27.1827 14.3336 27.6995 14.8244 27.8483L17.2785 28.5808C17.2785 28.5808 17.3194 28.5919 17.3305 28.5956C17.5945 28.6737 17.8623 28.7109 18.1337 28.7109C18.6951 28.7109 19.2566 28.5436 19.7363 28.2275C20.294 27.8557 20.6956 27.3203 20.8703 26.7105L21.0079 26.6324L28.6043 22.4568C29.809 21.7094 31.445 22.0106 32.263 23.1C32.4824 23.3975 32.5865 23.7359 32.5865 24.0779Z"
+                        fill="Currentcolor" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M0.40918 21.464V31.5814H4.45835V19.4338H2.43934C1.31643 19.4338 0.40918 20.3448 0.40918 21.464Z"
+                        fill="CurrentColor" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M17.6699 18.1883C22.6189 18.1883 26.5937 14.2135 26.5937 9.2645C26.5937 4.31551 22.6189 0.340698 17.6699 0.340698C12.7209 0.340698 8.74609 4.31551 8.74609 9.2645C8.74609 14.2135 12.7209 18.1883 17.6699 18.1883ZM17.6699 3.22978C17.6699 3.22978 20.9159 9.55081 20.9159 11.343C20.9159 13.1352 19.4621 14.5853 17.6699 14.5853C15.8777 14.5853 14.4239 13.1352 14.4239 11.343C14.4239 9.55081 17.6699 3.22978 17.6699 3.22978Z"
+                        fill="CurrentColor" />
+                    <path
+                        d="M18.8858 13.3696C19.3334 13.3696 19.6964 13.0067 19.6964 12.5591C19.6964 12.1114 19.3334 11.7485 18.8858 11.7485C18.4381 11.7485 18.0752 12.1114 18.0752 12.5591C18.0752 13.0067 18.4381 13.3696 18.8858 13.3696Z"
+                        fill="CurrentColor" />
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="stats-box">
+        <p>Fleets</p>
+        <div class="stats-data">
+            <h3>1245</h3>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="29" height="35" viewBox="0 0 29 35"
+                    fill="none">
+                    <path
+                        d="M8.4983 5.4064H19.8237C21.2264 5.40617 22.6074 5.75389 23.8428 6.41849C25.0781 7.08309 26.1293 8.04374 26.9021 9.21444V1.8671C26.9034 1.49129 26.7546 1.13038 26.4889 0.864632C26.2231 0.598881 25.8622 0.450094 25.4864 0.451425H2.8356C2.4598 0.450098 2.09889 0.598853 1.83314 0.864632C1.56739 1.13041 1.4186 1.49129 1.41993 1.8671V9.21444C2.19269 8.04374 3.24394 7.08309 4.4792 6.41849C5.7146 5.75389 7.09554 5.40617 8.4983 5.4064Z"
+                        fill="CurrentColor" />
+                    <path
+                        d="M27.2566 17.7228C27.1455 17.6566 27.0266 17.6044 26.9027 17.5673C26.6766 17.4814 26.4366 17.4382 26.1948 17.4397V13.9006C26.1923 12.2118 25.5203 10.593 24.3262 9.39872C23.132 8.20446 21.5131 7.53258 19.8243 7.53003H8.49893C6.81017 7.53257 5.19135 8.20457 3.99709 9.39872C2.80282 10.5929 2.13094 12.2118 2.1284 13.9006V17.4397C1.88662 17.4382 1.64661 17.4814 1.42056 17.5673C1.29669 17.6044 1.17779 17.6566 1.06664 17.7228C0.743471 17.9091 0.475144 18.1773 0.288671 18.5005C0.102312 18.8237 0.00431898 19.1902 0.00488525 19.5633V28.0573C0.00411105 28.6207 0.227633 29.1613 0.626026 29.5597C1.02442 29.958 1.56501 30.1816 2.1284 30.1808V32.3538C2.13028 32.9032 2.34948 33.4296 2.7379 33.8182C3.12645 34.2068 3.65288 34.4258 4.20236 34.4278H4.30157H4.30146C4.85091 34.4258 5.37737 34.2067 5.76591 33.8182C6.15435 33.4296 6.37355 32.9032 6.37542 32.3538V30.1808H21.9761V32.3538C21.978 32.9032 22.1971 33.4297 22.5856 33.8182C22.9742 34.2068 23.5006 34.4258 24.0501 34.4278H24.121C24.6704 34.4258 25.1968 34.2067 25.5853 33.8181C25.9738 33.4296 26.193 32.9032 26.1948 32.3538V30.1808C26.7582 30.1816 27.2988 29.9581 27.6972 29.5597C28.0956 29.1613 28.3191 28.6207 28.3184 28.0573V19.5633C28.3189 19.1902 28.2209 18.8237 28.0346 18.5005C27.8481 18.1773 27.5798 17.9091 27.2566 17.7228ZM3.89799 24.518C3.42872 24.518 2.97856 24.3315 2.64667 23.9997C2.31487 23.6678 2.1284 23.2177 2.1284 22.7484C2.1284 22.2791 2.31487 21.829 2.64667 21.4971C2.97859 21.1653 3.42872 20.9788 3.89799 20.9788C4.36726 20.9788 4.81741 21.1653 5.1493 21.4971C5.48111 21.829 5.66758 22.2791 5.66758 22.7484C5.66736 23.2177 5.48089 23.6677 5.1491 23.9995C4.81732 24.3313 4.36728 24.5178 3.89799 24.518ZM10.6224 25.2258C10.6224 25.7316 10.3526 26.199 9.9146 26.4518C9.47662 26.7048 8.93691 26.7048 8.49893 26.4518C8.06095 26.199 7.79109 25.7316 7.79109 25.2258V21.6867C7.79109 21.6013 7.79817 21.5161 7.81233 21.4319C7.87393 21.1067 8.04679 20.813 8.30119 20.6012C8.55557 20.3894 8.87575 20.2726 9.20676 20.271C9.53735 20.2742 9.85676 20.3914 10.1108 20.603C10.365 20.8146 10.5382 21.1073 10.6012 21.4319C10.6154 21.5161 10.6224 21.6013 10.6224 21.6867V25.2258ZM15.5773 25.2258C15.5773 25.7316 15.3074 26.199 14.8695 26.4518C14.4315 26.7048 13.8918 26.7048 13.4538 26.4518C13.0158 26.199 12.7459 25.7316 12.7459 25.2258V21.6867C12.7459 21.6013 12.753 21.5161 12.7672 21.4319C12.8288 21.1067 13.0017 20.813 13.256 20.6012C13.5104 20.3894 13.8306 20.2726 14.1616 20.271C14.4922 20.2742 14.8116 20.3914 15.0657 20.603C15.3198 20.8146 15.493 21.1073 15.5561 21.4319C15.5702 21.5161 15.5773 21.6013 15.5773 21.6867V25.2258ZM20.5322 25.2258C20.5322 25.7316 20.2623 26.199 19.8243 26.4518C19.3863 26.7048 18.8466 26.7048 18.4086 26.4518C17.9707 26.199 17.7008 25.7316 17.7008 25.2258V21.6867C17.7008 21.6013 17.7079 21.5161 17.722 21.4319C17.7836 21.1067 17.9565 20.813 18.2109 20.6012C18.4653 20.3894 18.7855 20.2726 19.1165 20.271C19.4471 20.2742 19.7665 20.3914 20.0205 20.603C20.2747 20.8146 20.4479 21.1073 20.5109 21.4319C20.5251 21.5161 20.5322 21.6013 20.5322 21.6867V25.2258ZM21.9478 17.4396H6.37542V13.9005C6.37708 13.3377 6.60137 12.7987 6.99919 12.4007C7.39714 12.0029 7.9362 11.7786 8.49893 11.7769H19.8243C20.387 11.7786 20.9261 12.0029 21.3241 12.4007C21.7219 12.7987 21.9462 13.3377 21.9478 13.9005V17.4396ZM24.4253 24.518C23.956 24.518 23.5058 24.3315 23.1739 23.9997C22.8421 23.6678 22.6557 23.2177 22.6557 22.7484C22.6557 22.2791 22.8421 21.829 23.1739 21.4971C23.5059 21.1653 23.956 20.9788 24.4253 20.9788C24.8945 20.9788 25.3447 21.1653 25.6766 21.4971C26.0084 21.829 26.1948 22.2791 26.1948 22.7484C26.1946 23.2177 26.0082 23.6677 25.6764 23.9995C25.3446 24.3313 24.8946 24.5178 24.4253 24.518Z"
+                        fill="CurrentColor" />
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="stats-box">
+        <p>Orders</p>
+        <div class="stats-data">
+            <h3>52</h3>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35"
+                    fill="none">
+                    <path
+                        d="M17.6489 25.9898C22.6112 25.9898 26.6338 21.9671 26.6338 17.0049C26.6338 12.0427 22.6112 8.02002 17.6489 8.02002C12.6867 8.02002 8.66406 12.0427 8.66406 17.0049C8.66406 21.9671 12.6867 25.9898 17.6489 25.9898Z"
+                        fill="CurrentColor" />
+                    <path
+                        d="M17.6494 -0.00976562C8.25274 -0.00976562 0.634766 7.60821 0.634766 17.0049C0.634766 26.4019 8.25274 34.0195 17.6494 34.0195C27.0465 34.0195 34.6641 26.4019 34.6641 17.0049C34.6641 7.60821 27.0465 -0.00976562 17.6494 -0.00976562ZM17.6494 29.8137C10.5755 29.8137 4.84063 24.0788 4.84063 17.0049C4.84063 9.93099 10.5755 4.1961 17.6494 4.1961C24.7233 4.1961 30.4582 9.93099 30.4582 17.0049C30.4582 24.0788 24.7233 29.8137 17.6494 29.8137Z"
+                        fill="CurrentColor" />
+                </svg>
+            </span>
+        </div>
+    </div>
 
-    <!--JS-->
-    <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.min.js')}}"></script>
-
-</body>
-
-</html>
+    <div class="stats-box">
+        <p>Complete orders</p>
+        <div class="stats-data">
+            <h3>367</h3>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"
+                    fill="none">
+                    <path
+                        d="M17.9987 0.900757C14.6168 0.900757 11.3108 1.90361 8.49884 3.7825C5.68688 5.66139 3.49523 8.33193 2.20103 11.4564C0.906823 14.5809 0.5682 18.019 1.22798 21.3359C1.88776 24.6529 3.51631 27.6997 5.90768 30.091C8.29906 32.4824 11.3459 34.111 14.6628 34.7707C17.9797 35.4305 21.4178 35.0919 24.5423 33.7977C27.6668 32.5035 30.3373 30.3118 32.2162 27.4999C34.0951 24.6879 35.098 21.3819 35.098 18C35.0984 15.7544 34.6564 13.5307 33.7973 11.4559C32.9381 9.38109 31.6786 7.4959 30.0907 5.90799C28.5028 4.32009 26.6176 3.06058 24.5428 2.20142C22.4681 1.34227 20.2443 0.900297 17.9987 0.900757ZM27.3077 13.384L15.8044 27.8305L8.80512 20.8312C8.64669 20.695 8.51813 20.5276 8.42752 20.3393C8.33691 20.1511 8.2862 19.9461 8.27859 19.7373C8.27098 19.5285 8.30662 19.3204 8.38328 19.1261C8.45994 18.9317 8.57596 18.7553 8.72405 18.608C8.87215 18.4606 9.04911 18.3454 9.24384 18.2697C9.43857 18.194 9.64684 18.1594 9.85559 18.1681C10.0643 18.1767 10.269 18.2284 10.4568 18.3199C10.6446 18.4115 10.8115 18.5409 10.9469 18.7L15.5489 23.288L24.9385 11.4977C25.0593 11.3334 25.212 11.1952 25.3874 11.0913C25.5629 10.9875 25.7575 10.9201 25.9596 10.8932C26.1617 10.8663 26.3672 10.8805 26.5637 10.9349C26.7602 10.9893 26.9437 11.0828 27.1032 11.2098C27.2627 11.3368 27.395 11.4947 27.492 11.674C27.5891 11.8533 27.6489 12.0504 27.668 12.2534C27.6871 12.4564 27.6651 12.6612 27.6032 12.8554C27.5413 13.0497 27.4408 13.2295 27.3077 13.384Z"
+                        fill="CurrentColor" />
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="stats-box">
+        <p>Active issues</p>
+        <div class="stats-data">
+            <h3>20</h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="37" height="31" viewBox="0 0 37 31" fill="none">
+                <path
+                    d="M36.1577 27.4959L20.6131 2.15552C19.5785 0.466786 17.8862 0.490488 16.8516 2.17922L1.30705 27.4853C0.272477 29.1752 1.04514 30.4799 3.02422 30.4799H34.4393C36.4196 30.4799 37.1922 29.1835 36.1577 27.4959ZM18.7193 7.76447C19.7148 7.76447 20.4851 8.86421 20.4341 10.2081L20.1189 18.3069C20.0679 19.6496 19.4363 20.7493 18.7158 20.7493C17.9952 20.7493 17.3624 19.6496 17.3115 18.3069L16.9998 10.2081C16.9488 8.86421 17.7215 7.76447 18.7193 7.76447ZM18.7193 26.8501C17.4631 26.8501 16.6016 25.9316 16.6277 24.6766C16.6277 23.3944 17.4916 22.5032 18.7193 22.5032C19.9992 22.5032 20.8086 23.3944 20.8359 24.6766C20.8359 25.9316 19.9992 26.8501 18.7193 26.8501Z"
+                    fill="CurrentColor" />
+            </svg>
+        </div>
+    </div>
+    <div class="stats-box">
+        <p>Location</p>
+        <div class="stats-data">
+            <h3>18</h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="35" viewBox="0 0 26 35" fill="none">
+                <path
+                    d="M18.8238 23.0294C18.7347 23.166 18.6427 23.299 18.5524 23.4338C18.4537 23.5812 18.3556 23.7298 18.2558 23.8755C18.1324 24.056 18.0072 24.2329 17.8821 24.4104C17.781 24.5542 17.6805 24.6987 17.5788 24.8401C17.4512 25.017 17.3224 25.1891 17.1937 25.3624C17.092 25.499 16.9915 25.6374 16.8892 25.7716C16.7574 25.9455 16.6244 26.1134 16.492 26.2831C16.3921 26.4106 16.2923 26.5406 16.1918 26.6664C16.054 26.8379 15.9162 27.0033 15.7784 27.17C15.6821 27.2862 15.5864 27.4053 15.4901 27.519C15.3445 27.6905 15.1995 27.8542 15.0545 28.0197C14.9654 28.1208 14.8764 28.2261 14.7873 28.3248C14.626 28.5041 14.4654 28.6744 14.3047 28.8453C14.2325 28.9217 14.1603 29.0029 14.0887 29.0776C13.857 29.3195 13.6259 29.5517 13.3973 29.7738C13.2805 29.8869 13.1295 29.9435 12.9785 29.9435C12.8274 29.9435 12.6764 29.8869 12.5596 29.7738C12.331 29.5523 12.1005 29.3195 11.8682 29.0776C11.796 29.0023 11.7238 28.9211 11.6516 28.8441C11.4915 28.6732 11.3309 28.5035 11.1696 28.3242C11.0799 28.2243 10.9897 28.1184 10.9 28.0155C10.7562 27.8518 10.6124 27.6893 10.468 27.519C10.3699 27.4029 10.2718 27.2813 10.1731 27.1628C10.0371 26.9985 9.90173 26.8361 9.76574 26.667C9.66344 26.5394 9.56174 26.4064 9.45945 26.2764C9.32887 26.1097 9.19829 25.9443 9.06892 25.774C8.96241 25.6338 8.8571 25.4894 8.7512 25.3467C8.62784 25.1807 8.50448 25.0152 8.38233 24.8461C8.27281 24.6944 8.1651 24.5392 8.05678 24.3851C7.94004 24.2191 7.8233 24.0542 7.70777 23.8857C7.59765 23.7244 7.48934 23.5608 7.38042 23.3977C7.29858 23.2749 7.21494 23.154 7.13371 23.03H3.36017L0.385742 34.1081H25.5718L22.5973 23.03L18.8238 23.0294Z"
+                    fill="CurrentColor" />
+                <path
+                    d="M3.23633 10.152C3.23633 11.1227 3.45296 12.1216 3.61663 12.7895C4.27554 15.4847 5.82022 18.7907 7.96544 22.0997C7.96544 22.1003 7.96664 22.1009 7.96724 22.1015C8.54191 22.9933 9.15148 23.8694 9.77488 24.7058C10.8352 26.1272 11.9357 27.4311 12.9792 28.4938C14.6364 26.8065 16.4392 24.5103 17.9911 22.1021C20.1375 18.7919 21.6828 15.4853 22.3411 12.7901C22.5042 12.1228 22.7214 11.1233 22.7214 10.1526C22.7214 4.78087 18.3509 0.4104 12.9792 0.4104C7.6074 0.4104 3.23633 4.78027 3.23633 10.152ZM12.9756 4.02628C16.3538 4.02628 19.1025 6.77445 19.1025 10.1526C19.1025 13.5308 16.3544 16.2796 12.9756 16.2796C9.59677 16.2796 6.8486 13.5314 6.8486 10.1526C6.8486 6.77385 9.59677 4.02628 12.9756 4.02628Z"
+                    fill="CurrentColor" />
+            </svg>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="order-detail-header">
+        <h6>Dispatchers</h6>
+        <a href="" class="view-all-link">View all</a>
+    </div>
+    <div class="db-table-box">
+        <div class="tb-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Company Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="table-data">
+                                <div class="table-img">
+                                    <img src="{{ asset('assets/images/table-img1.png') }}" alt="">
+                                </div>
+                                Roger Bergson
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-data">
+                                <i class="fa-solid fa-envelope"></i>
+                                rogerbergson@gmail.vom
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-data">
+                                <i class="fa-solid fa-phone"></i>
+                                +1245-1231-123
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-data">
+                                <i class="fa-solid fa-building"></i>
+                                ExxonMobil
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="table-data">
+                                <div class="table-img">
+                                    <img src="{{ asset('assets/images/table-img1.jpg') }}" alt="">
+                                </div>
+                                Roger Bergson
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-data">
+                                <i class="fa-solid fa-envelope"></i>
+                                rogerbergson@gmail.vom
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-data">
+                                <i class="fa-solid fa-phone"></i>
+                                +1245-1231-123
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-data">
+                                <i class="fa-solid fa-building"></i>
+                                ExxonMobil
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="db-pagination-bx">
+    <div class="pagination-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
+            <path
+                d="M5.82554 11.7343C5.93433 11.7343 6.04327 11.6929 6.12635 11.6098C6.29252 11.4436 6.29252 11.1743 6.12635 11.0081L1.32272 6.20465L6.12621 1.40116C6.29238 1.235 6.29238 0.965702 6.12621 0.799674C5.96005 0.633507 5.69075 0.633507 5.52458 0.799674L0.420282 5.90398C0.340516 5.98374 0.295726 6.09199 0.295726 6.20479C0.295726 6.3176 0.340516 6.42584 0.420282 6.50561L5.52472 11.6098C5.60781 11.6929 5.7166 11.7343 5.82554 11.7343Z"
+                fill="CurrentColor" />
+        </svg>
+    </div>
+    <div class="pagination-no-bx">
+        <div class="pagination-no active">
+            1
+        </div>
+        <div class="pagination-no">
+            2
+        </div>
+        <div class="pagination-no">
+            3
+        </div>
+        <div class="pagination-no">
+            ...
+        </div>
+        <div class="pagination-no">
+            10
+        </div>
+    </div>
+    <div class="pagination-next active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
+            <path
+                d="M1.3356 11.7344C1.2268 11.7344 1.11786 11.693 1.03478 11.6099C0.868615 11.4437 0.868615 11.1744 1.03478 11.0083L5.83841 6.20477L1.03492 1.40129C0.868753 1.23512 0.868753 0.965824 1.03492 0.799796C1.20109 0.633629 1.47038 0.633629 1.63655 0.799796L6.74085 5.9041C6.82062 5.98386 6.86541 6.09211 6.86541 6.20491C6.86541 6.31772 6.82062 6.42596 6.74085 6.50573L1.63641 11.6099C1.55333 11.693 1.44453 11.7344 1.3356 11.7344Z"
+                fill="CurrentColor" />
+        </svg>
+    </div>
+</div>

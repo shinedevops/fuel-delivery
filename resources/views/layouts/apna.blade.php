@@ -38,6 +38,18 @@
     <!--JS-->
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('assets/js/jquery.min.js')}}"></script>
+    <script>
+        $(function () {
+
+            //toggle two classes on button element
+            $('.open-sidebar').on('click', function () {
+                $('.dashboard-sidebar').addClass('clicked');
+            });
+            $('.close-dashboard').on('click', function () {
+                $('.dashboard-sidebar').removeClass('clicked');
+            });
+        });
+    </script>
 
 </body>
 
