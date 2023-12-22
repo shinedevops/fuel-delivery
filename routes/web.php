@@ -26,8 +26,7 @@ Auth::routes([
     'verify' => True,
 ]);
 
-
-Route::get('logout', [App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout');
+Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     // Routes that require authentication

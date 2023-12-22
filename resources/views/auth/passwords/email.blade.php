@@ -38,7 +38,7 @@
                                         <div class="formfield">
                                             <input type="email"
                                                 class="form-control @error('email') is-invalid @enderror" name="email"
-                                                placeholder="Enter email address" value="{{ old('email') }}" readonly>
+                                                placeholder="Enter email address" value="{{ old('email') }}">
                                             <span class="form-icon">
                                                 <i class="fa-solid fa-envelope"></i>
                                             </span>

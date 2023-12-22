@@ -43,7 +43,8 @@
                         </div>
                         <div class="edit-document-img">
                             <h6>Documents</h6>
-                            <img src="images/lisence.png" class="lisence-img" alt="">
+                            <img  class="lisence-img" src="{{ isset($user->profile_path) ? asset('storage/' . $userDetails->driving_licence) : asset('assets/images/table-img1.png') }}"
+                            alt="profile">
                         </div>
                     </div>
                 </div>

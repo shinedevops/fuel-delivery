@@ -21,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      public const HOME = '/userdashboard';
      public const CompleteProfile = '/completeprofile';
      public const DASHBOARD = '/userdashboard';
+     public const LOGOUT = '/logout';
     //  public const LOGIN = '/loginpage';
 
     /**
