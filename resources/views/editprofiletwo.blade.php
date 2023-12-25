@@ -12,7 +12,7 @@
                     <div class="profile-edit-box">
                         <div class="upload-img">
                             <div class="main-profile-image-box">
-                                <img src="{{ isset($user->profile_path) ? asset('storage/' . $user->profile_path) : asset('assets/images/table-img1.png') }}"
+                                <img src="{{ isset($user) ? asset('storage/' . $user->profile_path) : asset('assets/images/table-img1.png') }}"
                                 class="main-profile-image" alt="profile">
 
                                 <div class="file file--upload">
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <div class="formfield">
                                             <input type="text" class="form-control" name="name"
-                                                placeholder="Enter your name" value="{{ $user->name ?? old('name') }}">
+                                                placeholder="Choose image" value="{{ $user->name ?? old('name') }}">
 
                                             <span class="form-icon">
                                                 <i class="fa-solid fa-user"></i>
@@ -59,8 +59,7 @@
                                     <div class="form-group">
                                         <div class="formfield">
                                             <input type="email" class="form-control" name="email"
-                                                placeholder="Enter your email" value="{{ $user->email ?? old('email') }}"
-                                                readonly>
+                                                placeholder="Enter your email" value="{{ $user->email ?? old('email') }}">
 
                                             <span class="form-icon">
                                                 <i class="fa-solid fa-envelope"></i>
@@ -102,7 +101,7 @@
 
                                     <div class="form-group upload-file">
                                         <label for="upload-file">
-                                            <img  src="{{ isset($user->profile_path) ? asset('storage/' . $userDetails->driving_licence) : asset('assets/images/table-img1.png') }}"
+                                            <img  src="{{ isset($userDetails) ? asset('storage/' . $userDetails->driving_licence) : asset('assets/images/table-img1.png')  }}"
                                             alt="profile">
 
                                             <div class="upload-file-detail">
@@ -111,7 +110,7 @@
                                             </div>
 
                                         </label>
-                                        <input type="file" id="upload-file" name="license">
+                                        <input type="file" id="upload-file" name="license" value="{{ $userDetails->driving_licence ?? old('license') }}">
                                         @error('license')
                                             <span class="invalid-txt" role="alert">{{ $message }}</span>
                                         @enderror

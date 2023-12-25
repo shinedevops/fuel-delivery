@@ -24,8 +24,10 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="user-feed-profile d-flex align-items-center">
                                     <div class="user-feed-profile-img position-relative">
-                                        <img src="{{asset('assets/images/profile.png')}}" class="user-profile"
-                                            alt="feed-profile">
+                                            {{-- <img src="{{ asset('storage/' . auth()->user()->profile_path) }}" class="user-profile" alt="profile"> --}}
+                                           <img src="{{ isset(auth()->user()->profile_path) ? asset('storage/' . auth()->user()->profile_path) : asset('assets/images/table-img1.png') }}"
+                                           class="user-profile" >
+                                           
                                         <i class="fa-solid fa-chevron-down"></i>
                                     </div>
 

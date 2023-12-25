@@ -41,10 +41,15 @@
     <!--JS-->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.js"></script>
+    @yield('scripts')
+
+
+
 
     {{-- phone Validation --}}
     {{-- <script>
@@ -62,74 +67,6 @@
             });
         });
     </script> --}}
-        
-    
-    {{-- <script>
-        jQuery(document).ready(function() {
-            jQuery("#registerform").validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 50,
-                        regex: /^[a-zA-Z]+[a-zA-Z]+$/,
-                    },
-                    email: {
-                        required: true,
-                        regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    },
-                    password: {
-                        required: true,
-                        minlength: 4,
-                    },
-                    password_confirmation: {
-                        required: true,
-                        equalTo: '#password',
-                    },
-                },
-                messages: {
-                    // Error messages for each field...
-                    name: {
-                        required: 'Name is required',
-                        minlength: 'Name must be 3-50 characters long',
-                        maxlength: 'Name must be 3-50 characters long',
-                        regex: 'Name contains alphabets only',
-                    },
-                    email: {
-                        required: 'Email is required',
-                        regex: 'Invalid email address',
-                    },
-                    password: {
-                        required: 'Password is required',
-                        minlength: 'Password must be at least 4 characters long',
-                    },
-                    password_confirmation: {
-                        required: 'Please confirm your password',
-                        equalTo: 'Passwords do not match',
-                    },
-                },
-                success: function(label) {
-                    // Find the associated input field and remove error class from its parent
-                    var input = label.closest('.formfield').find('input');
-                    input.removeClass("error");
-                },
-                errorPlacement: function(error, element) {
-                    var placement = $(element).data('error');
-                    if (placement) {
-                        $(placement).append(error);
-                    } else {
-                        error.insertAfter(element.parent());
-                    }
-                },
-                submitHandler: function(form) {
-                    // Submit form when all validations pass
-                    form.submit();
-                },
-            });
-        });
-    </script> --}}
-
-
 
 
 </body>

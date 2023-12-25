@@ -14,7 +14,7 @@
             <div class="input-box">
                 <div class="form-group">
                     <div class="formfield">
-                        <input type="text" class="form-control" name="company_name" placeholder="Company Name">
+                        <input type="text" class="form-control" name="company_name" placeholder="Company Name" value="{{ old('company_name') }}">
                         <span class="form-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22"
                                 fill="none">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <div class="formfield">
-                        <input type="text" class="form-control" name="company_website" placeholder="Company Website">
+                        <input type="text" class="form-control" name="company_website" placeholder="Company Website" value="{{ old('company_website') }}">
                         <span class="form-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                                 fill="none">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group">
                     <div class="formfield">
-                        <input type="text" class="form-control" name="complete_address" placeholder="Complete address">
+                        <input type="text" class="form-control" name="complete_address" placeholder="Complete address" value="{{ old('complete_address') }}" >
                         <span class="form-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="23" viewBox="0 0 18 23"
                                 fill="none">
@@ -105,7 +105,7 @@
                 <div class="two-form-bx">
                     <div class="form-group">
                         <div class="formfield">
-                            <input type="number" class="form-control" id="phone_number" name="phone_number"
+                            <input type="number" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number') }}"
                                 placeholder="Phone Number">
                             <span class="form-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <div class="formfield">
-                            <input type="number" class="form-control" name="company_size" placeholder="Company Size">
+                            <input type="number" class="form-control" name="company_size" placeholder="Company Size" value="{{ old('company_size')}}">
                             <span class="form-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="19" viewBox="0 0 24 19"
                                     fill="none">

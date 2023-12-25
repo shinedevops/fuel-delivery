@@ -9,6 +9,8 @@ use App\Models\UserDetail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+
 
 class RegisterController extends Controller
 {
@@ -55,7 +57,10 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
+            'profile' => ['required','image'],
+            
         ]);
+        dd('Validator');
     }
 
     /**
@@ -65,13 +70,20 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
+    {   
+        $profilePath = null; // Default value
+        
+        // Check if the request has the 'profile' file
+        if (isset($data['profile']) && $data['profile']->isValid()) {
+            $profilePath = $data['profile']->store('profile_pics', 'public');
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'profile_path' => $profilePath, // Save the profile path here
         ]);
     }
 
-  
 }

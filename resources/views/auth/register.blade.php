@@ -10,17 +10,21 @@
             <h4>Sign Up</h4>
             <p>Welcome to your personalized experience.</p>
         </div>
-        <form class="login-form" id="registerform"  name="registerform" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+        <form class="login-form" id="registerform" name="registerform" method="POST" action="{{ route('register') }}"
+            enctype="multipart/form-data">
             @csrf
             <div class="input-box">
                 <div class="upload-img pro-upload-bx">
                     <div class="main-profile-image-box">
-                        <img src="{{ asset('assets/images/table-img1.png') }}" class="main-profile-image">
+                        <img src="{{ asset('assets/images/table-img1.png') }}" class="main-profile-image"  alt="profile">
+
                         <div class="file file--upload">
                             <label for="input-file">
                                 <i class="fa-solid fa-camera"></i>
                             </label>
-                            <input id="input-file" type="file" name="profile_pic">
+                            {{-- <input id="input-file" type="file" name="profile"> --}}
+                            <input id="input-file" type="file"  name="profile" placeholder="Choose image" 
+                            value="" alt="profile" hidden >
                         </div>
                     </div>
                 </div>
@@ -40,7 +44,7 @@
                     @enderror
                     {{-- <span style="color: red" id="name-msg"></span> --}}
                 </div>
-                
+
                 <div class="form-group">
                     <div class="formfield">
                         <input id="email" class="form-control @error('email') is-invalid @enderror" name="email"
@@ -96,22 +100,24 @@
             <span>Already have an account?</span> <a href="{{ route('login') }}" class="login-footer-link">Log In</a>
         </div>
     </div>
+@endsection
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+@section('scripts')
+
     <script>
-        jQuery(document).ready(function() {
-            jQuery("#registerform").validate({
+        $(document).ready(function() {
+            $("#registerform").validate({
                 rules: {
                     name: {
                         required: true,
                         minlength: 3,
                         maxlength: 50,
-                        regex: /^[a-zA-Z]+[a-zA-Z]+$/,
+                        pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/
+
                     },
                     email: {
                         required: true,
-                        regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                     },
                     password: {
                         required: true,
@@ -128,11 +134,11 @@
                         required: 'Name is required',
                         minlength: 'Name must be 3-50 characters long',
                         maxlength: 'Name must be 3-50 characters long',
-                        regex: 'Name contains alphabets only',
+                        pattern: 'Name contains alphabets only & space',
                     },
                     email: {
                         required: 'Email is required',
-                        regex: 'Invalid email address',
+                        pattern: 'Invalid email address',
                     },
                     password: {
                         required: 'Password is required',
@@ -142,29 +148,16 @@
                         required: 'Please confirm your password',
                         equalTo: 'Passwords do not match',
                     },
-                },
-                submitHandler: function(form) {
-                    // Submit form when all validations pass
-                    form.submit();
-                },
-                success: function(label) {
-                    // Find the associated input field and remove error class from its parent
-                    var input = label.closest('.formfield').find('input');
-                    input.removeClass("error");
-                },
-                errorPlacement: function(error, element) {
-                    var placement = $(element).data('error');
-                    if (placement) {
-                        $(placement).append(error);
-                    } else {
-                        error.insertAfter(element.parent());
-                    }
-                },
-                
+                }
+            });
+
+            // Click event handler for the "Next" button
+            $('.button.primary-btn.full-btn').on('click', function(e) {
+                e.preventDefault();
+                if ($('#registerform').valid()) {
+                    $('#registerform').submit();
+                }
             });
         });
     </script>
-@endsection
-
-
-
+@stop
