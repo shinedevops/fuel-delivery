@@ -3,14 +3,14 @@
 {{-- {{'login'}}
 @endsection --}}
 @section('formcontent')
-
-
+    <!-- Your HTML form content -->
+    <!-- ... -->
     <div class="login-box">
         <div class="login-header text-center">
             <h4>Sign Up</h4>
             <p>Welcome to your personalized experience.</p>
         </div>
-        <form class="login-form" id="registerform" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+        <form class="login-form" id="registerform"  name="registerform" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
             <div class="input-box">
                 <div class="upload-img pro-upload-bx">
@@ -40,6 +40,7 @@
                     @enderror
                     {{-- <span style="color: red" id="name-msg"></span> --}}
                 </div>
+                
                 <div class="form-group">
                     <div class="formfield">
                         <input id="email" class="form-control @error('email') is-invalid @enderror" name="email"
@@ -72,7 +73,7 @@
                 </div>
                 <div class="form-group">
                     <div class="formfield">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                        <input id="password_confirmation" type="password" class="form-control" name="password_confirmation"
                             autocomplete="new-password" placeholder="Confirm Password">
                         <span class="form-icon">
                             <i class="fa-solid fa-lock"></i>
@@ -84,7 +85,7 @@
                         </span>
                     @enderror
 
-                    {{-- <span style="color: red" id="password-confirm-msg"></span> --}}
+                    {{-- <span style="color: red" id="password_confirmation-msg"></span> --}}
                 </div>
             </div>
 
@@ -95,4 +96,75 @@
             <span>Already have an account?</span> <a href="{{ route('login') }}" class="login-footer-link">Log In</a>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            jQuery("#registerform").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 50,
+                        regex: /^[a-zA-Z]+[a-zA-Z]+$/,
+                    },
+                    email: {
+                        required: true,
+                        regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    },
+                    password: {
+                        required: true,
+                        minlength: 4,
+                    },
+                    password_confirmation: {
+                        required: true,
+                        equalTo: '#password',
+                    },
+                },
+                messages: {
+                    // Error messages for each field...
+                    name: {
+                        required: 'Name is required',
+                        minlength: 'Name must be 3-50 characters long',
+                        maxlength: 'Name must be 3-50 characters long',
+                        regex: 'Name contains alphabets only',
+                    },
+                    email: {
+                        required: 'Email is required',
+                        regex: 'Invalid email address',
+                    },
+                    password: {
+                        required: 'Password is required',
+                        minlength: 'Password must be at least 4 characters long',
+                    },
+                    password_confirmation: {
+                        required: 'Please confirm your password',
+                        equalTo: 'Passwords do not match',
+                    },
+                },
+                submitHandler: function(form) {
+                    // Submit form when all validations pass
+                    form.submit();
+                },
+                success: function(label) {
+                    // Find the associated input field and remove error class from its parent
+                    var input = label.closest('.formfield').find('input');
+                    input.removeClass("error");
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error);
+                    } else {
+                        error.insertAfter(element.parent());
+                    }
+                },
+                
+            });
+        });
+    </script>
 @endsection
+
+
+

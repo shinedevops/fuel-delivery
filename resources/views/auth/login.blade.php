@@ -30,7 +30,7 @@
                             @error('email')
                                 <span class="invalid-txt">{{ $message }}</span>
                             @enderror
-                            <span style="color: red" id="email-msg"></span>
+                            {{-- <span style="color: red" id="email-msg"></span> --}}
                         </div>
                         <div class="form-group">
                             <div class="formfield">
@@ -43,7 +43,7 @@
                             @error('password')
                                 <span class="invalid-txt">{{ $message }}</span>
                             @enderror
-                            <span id="msg"></span>
+                            {{-- <span style="color: red" id="password-msg"></span> --}}
                         </div>
 
                     </div>

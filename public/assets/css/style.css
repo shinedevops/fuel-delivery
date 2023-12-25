@@ -180,10 +180,10 @@ input[type="checkbox"]:checked ~ label:before {
     align-items: center;
 }
 .form-group label {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
-    color: #191C1D;
-    margin-bottom: 5px;
+    color:red;
+    margin-bottom: 1px;
 }
 .checkbox-form-group label {
     margin-bottom: 15px;

@@ -41,8 +41,10 @@
     <!--JS-->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    
 
     {{-- phone Validation --}}
     {{-- <script>
@@ -60,12 +62,11 @@
             });
         });
     </script> --}}
+        
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script>
+    {{-- <script>
         jQuery(document).ready(function() {
-            var form = jQuery('#registerform');
-            form.validate({
+            jQuery("#registerform").validate({
                 rules: {
                     name: {
                         required: true,
@@ -77,30 +78,17 @@
                         required: true,
                         regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     },
-                    // phone_number: {
-                    //     required: true,
-                    //     regex: /^[(]?[0-9]{3}[)]?[-]?[0-9]{3}[-]?[0-9]{4}$/
-                    // },
-                    // title: {
-                    //     minlength: 3,
-                    //     maxlength: 50,
-                    //     regex: /^[a-zA-Z]+[a-zA-Z\s]+$/,
-                    // },
-                    // company: {
-                    //     minlength: 3,
-                    //     maxlength: 80,
-                    //     regex: /^[a-zA-Z]+[a-zA-Z\s]+$/,
-                    // },
                     password: {
                         required: true,
-                        minlength: 8, // Minimum password length
+                        minlength: 4,
                     },
-                    password-confirm: {
+                    password_confirmation: {
                         required: true,
-                        equalTo: '#password', // Ensure the confirmation matches the password
+                        equalTo: '#password',
                     },
                 },
                 messages: {
+                    // Error messages for each field...
                     name: {
                         required: 'Name is required',
                         minlength: 'Name must be 3-50 characters long',
@@ -111,41 +99,36 @@
                         required: 'Email is required',
                         regex: 'Invalid email address',
                     },
-                    // phone_number: {
-                    //     required: 'Please enter the phone number',
-                    //     regex: "Invalid phone number"
-                    // },
-                    title: {
-                        minlength: 'Title must be 3-50 characters long',
-                        maxlength: 'Title must be 3-50 characters long',
-                        regex: 'Title contains alphabets and space only',
-                    },
-                    // company: {
-                    //     minlength: 'Company must be 3-80 characters long',
-                    //     maxlength: 'Company must be 3-80 characters long',
-                    //     regex: 'Company contains alphabets and space only',
-                    // },
                     password: {
                         required: 'Password is required',
-                        minlength: 'Password must be at least 8 characters long',
+                        minlength: 'Password must be at least 4 characters long',
                     },
-                    password-confirm: {
+                    password_confirmation: {
                         required: 'Please confirm your password',
                         equalTo: 'Passwords do not match',
                     },
                 },
-            });
-
-            form.on('keyup change', function() {
-                var valid = form.valid(); // Check if the form is valid
-                if (valid) {
-                    jQuery('.button.primary-btn.full-btn').prop('disabled', false); // Enable the button
-                } else {
-                    jQuery('.button.primary-btn.full-btn').prop('disabled', true); // Disable the button
-                }
+                success: function(label) {
+                    // Find the associated input field and remove error class from its parent
+                    var input = label.closest('.formfield').find('input');
+                    input.removeClass("error");
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error);
+                    } else {
+                        error.insertAfter(element.parent());
+                    }
+                },
+                submitHandler: function(form) {
+                    // Submit form when all validations pass
+                    form.submit();
+                },
             });
         });
-    </script>
+    </script> --}}
+
 
 
 
