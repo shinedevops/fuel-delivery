@@ -16,7 +16,7 @@
                     <h4>Login</h4>
                     <p>Welcome to your personalized experience.</p>
                 </div>
-                <form method="POST" action="{{ route('login') }}" class="login-form">
+                <form method="POST" id="registerform" action="{{ route('login') }}" class="login-form">
                     @csrf
                     <div class="input-box">
                         <div class="form-group">
@@ -80,3 +80,45 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+
+    <script>
+        $(document).ready(function() {
+            $("#registerform").validate({
+                rules: {
+                    
+                    email: {
+                        required: true,
+                        pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    },
+                    password: {
+                        required: true,
+                        minlength: 4,
+                    },
+                   
+                },
+                messages: {
+                    // Error messages for each field...
+                  
+                    email: {
+                        required: 'Email is required',
+                        pattern: 'Invalid email address',
+                    },
+                    password: {
+                        required: 'Password is required',
+                        minlength: 'Password must be at least 4 characters long',
+                    },
+                    
+                }
+            });
+
+            // Click event handler for the "Next" button
+            $('.button.primary-btn.full-btn').on('click', function(e) {
+                e.preventDefault();
+                if ($('#registerform').valid()) {
+                    $('#registerform').submit();
+                }
+            });
+        });
+    </script>
+@stop

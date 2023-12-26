@@ -13,7 +13,7 @@
                         <div class="upload-img">
                             <div class="main-profile-image-box">
                                 <img src="{{ isset($user) ? asset('storage/' . $user->profile_path) : asset('assets/images/table-img1.png') }}"
-                                class="main-profile-image" alt="profile">
+                                    class="main-profile-image" alt="profile">
 
                                 <div class="file file--upload">
                                     <label for="input-file">
@@ -21,21 +21,21 @@
                                     </label>
                                     {{-- <input id="input-file" type="file"> --}}
                                 </div>
-                                                    
+
                             </div>
-                            
+
                         </div>
-                        @error('profile')                               
-                                    <span class="invalid-txt" role="alert">{{ $message }}</span> <br>  
-                        @enderror 
-                        
+                        @error('profile')
+                            <span class="invalid-txt" role="alert">{{ $message }}</span> <br>
+                        @enderror
+
                         <div class="edit-input-bx">
 
-                            <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}" method="POST" enctype="multipart/form-data">
+                            <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="input-box">
-                                    <input id="input-file" type="file" hidden name="profile"
-                                        placeholder="Enter your name" value="{{ $user->profile_path ?? old('name') }}"
+                                    <input id="input-file" type="file" hidden name="profile" placeholder="Enter your name" value="{{ $user->profile_path ?? old('name') }}"
                                     alt="no profile">
 
                                     {{-- @if (isset($user->profile_path))
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <div class="formfield">
                                             <input type="text" class="form-control" name="name"
-                                                placeholder="Choose image" value="{{ $user->name ?? old('name') }}">
+                                                placeholder="Enter name" value="{{ $user->name ?? old('name') }}">
 
                                             <span class="form-icon">
                                                 <i class="fa-solid fa-user"></i>
@@ -101,8 +101,8 @@
 
                                     <div class="form-group upload-file">
                                         <label for="upload-file">
-                                            <img  src="{{ isset($userDetails) ? asset('storage/' . $userDetails->driving_licence) : asset('assets/images/table-img1.png')  }}"
-                                            alt="profile">
+                                            <img src="{{ isset($userDetails) ? asset('storage/' . $userDetails->driving_licence) : asset('assets/images/table-img1.png') }}"
+                                                alt="profile">
 
                                             <div class="upload-file-detail">
                                                 <h3>Driving Licence</h3>
@@ -110,7 +110,8 @@
                                             </div>
 
                                         </label>
-                                        <input type="file" id="upload-file" name="license" value="{{ $userDetails->driving_licence ?? old('license') }}">
+                                        <input type="file" id="upload-file" name="license"
+                                            value="{{ $userDetails->driving_licence ?? old('license') }}">
                                         @error('license')
                                             <span class="invalid-txt" role="alert">{{ $message }}</span>
                                         @enderror

@@ -81,7 +81,7 @@
                             {{ $message }}
                         </span>
                     @enderror
-                    <span style="color: red" id="company-website-msg"></span>
+                    {{-- <span style="color: red" id="company-website-msg"></span> --}}
                 </div>
                 <div class="form-group">
                     <div class="formfield">
@@ -100,7 +100,7 @@
                             {{ $message }}
                         </span>
                     @enderror
-                    <span style="color: red" id="complete-address-msg"></span>
+                    {{-- <span style="color: red" id="complete-address-msg"></span> --}}
                 </div>
                 <div class="two-form-bx">
                     <div class="form-group">
@@ -121,7 +121,7 @@
                                 {{ $message }}
                             </span>
                         @enderror
-                        <span style="color: red" id="phone-msg"></span>
+                        {{-- <span style="color: red" id="phone-msg"></span> --}}
                     </div>
                     <div class="form-group">
                         <div class="formfield">
@@ -155,7 +155,7 @@
                                 {{ $message }}
                             </span>
                         @enderror
-                        <span style="color: red" id="company-size-msg"></span>
+                        {{-- <span style="color: red" id="company-size-msg"></span> --}}
                     </div>
                 </div>
 

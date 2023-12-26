@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+// use Spatie\Permission\Traits\HasRoles; // for permission role
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
+    // use HasRoles;  // for role
 
     /**
      * The attributes that are mass assignable.
@@ -45,8 +47,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    
+    // UserDetail
     public function userDetails()
     {
         return $this->hasOne(UserDetail::class,'user_id','id');
+    }
+    
+    // UserNotification
+    public function userNotifications()
+    {
+        return $this->hasOne(UserNotification::class,'user_id','id');
     }
 }

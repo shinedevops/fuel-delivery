@@ -3,8 +3,11 @@
 use App\Http\Controllers\UserDetailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ProfileController;
+// use App\Http\Controllers\DriverController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +41,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('setting/profile/{id}', [ProfileController::class, 'editsetting'])->name('setting-profile');
     Route::get('edit/profile/{user_id}', [ProfileController::class, 'editprofile'])->name('edit-profile');
     Route::post('update/profile/{id}', [ProfileController::class, 'update'])->name('updateProfile');
+
+    // reset password
+    Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('changePassword');
+    // for Notification
+    Route::post('/toggleNotification', [NotificationController::class, 'toggleNotification'])->name('toggleNotification');
+
+
 });
 
 
