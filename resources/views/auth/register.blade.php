@@ -16,15 +16,15 @@
             <div class="input-box">
                 <div class="upload-img pro-upload-bx">
                     <div class="main-profile-image-box">
-                        <img src="{{ asset('assets/images/table-img1.png') }}" class="main-profile-image"  alt="profile">
+                        <img src="{{ asset('assets/images/table-img1.png') }}" class="main-profile-image" alt="profile">
 
                         <div class="file file--upload">
                             <label for="input-file">
                                 <i class="fa-solid fa-camera"></i>
                             </label>
                             {{-- <input id="input-file" type="file" name="profile"> --}}
-                            <input id="input-file" type="file"  name="profile" placeholder="Choose image" 
-                            value="" alt="profile" hidden >
+                            <input id="input-file" type="file" name="profile" placeholder="Choose image" value=""
+                                alt="profile" hidden>
                         </div>
                     </div>
                 </div>
@@ -91,6 +91,26 @@
 
                     {{-- <span style="color: red" id="password_confirmation-msg"></span> --}}
                 </div>
+
+                <div class="form-group">
+                    Role:
+                    <div class="formfield">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="carrier" name="role" value="carrier">
+                            <label class="form-check-label" for="carrier" style="color:#6c6767">Carrier</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="ditributor" name="role" value="distributor">
+                            <label class="form-check-label" for="ditributor" style="color:#6c6767">Distributor</label>
+                        </div>
+                    </div>
+                    @error('role')
+                        <span class="invalid-txt" role="alert">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
+
             </div>
 
             <button type="submit" class="button primary-btn full-btn">Next</button>
@@ -127,6 +147,9 @@
                         required: true,
                         equalTo: '#password',
                     },
+                    role: {
+                        required: true,
+                    }
                 },
                 messages: {
                     // Error messages for each field...
@@ -148,6 +171,9 @@
                         required: 'Please confirm your password',
                         equalTo: 'Passwords do not match',
                     },
+                    role: {
+                        required: 'role is required',
+                    }
                 }
             });
 

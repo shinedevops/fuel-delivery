@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
     // reset password
     Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('changePassword');
     // for Notification
-    Route::post('/toggleNotification', [NotificationController::class, 'toggleNotification'])->name('toggleNotification');
+    Route::post('/toggleNotification', [NotificationController::class, 'toggleNotification'])->name('notification');
 
 
 });

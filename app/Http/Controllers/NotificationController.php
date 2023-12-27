@@ -11,20 +11,20 @@ use Illuminate\Http\Request;
 class NotificationController extends Controller
 {
     //
-    public function toggleNotification(Request $request)
-    {
-        $notificationType = $request->input('notification_type');
-        $status = $request->input('status');
+   public function toggleNotification(Request $request)
+    {   
+        $notificationType = $request->input('notificationName');
+        $status = $request->input('value');
+        if($status ==0){
+            $status =1;
+        }else{
+            $status =0;
+        }
         
         $user = auth()->user(); // Get the authenticated user
         
-        $userNotification = $user->userNotification; // relation
-
-        // If the UserNotification instance doesn't exist, create a new one
-        if (!$userNotification) {
-            $userNotification = new UserNotification();
-            $userNotification->user_id = $user->id; 
-        }
+        
+        $userNotification = $user->userNotifications()->firstOrNew();
 
         // Update the notification status based on the notification type
         if ($notificationType === 'accept_order') {
@@ -32,12 +32,17 @@ class NotificationController extends Controller
         } elseif ($notificationType === 'subscription') {
             $userNotification->subscription = $status;
         } elseif ($notificationType === 'issue') {
-            $userNotification->issu = $status;
+            $userNotification->issue = $status;
+        } elseif ($notificationType === 'new_order') {
+            $userNotification->new_order = $status;
         } 
 
+        $userNotification->user_id = $user->id; // Ensure user_id is set
+        // dd($userNotification);
         $userNotification->save();
 
         return response()->json(['success' => true]);
     }
+
 
 }

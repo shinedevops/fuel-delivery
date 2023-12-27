@@ -10,7 +10,7 @@
                     <div class="main-profile-image-box">
                         {{-- <img src="images/table-img1.png" class="main-profile-image"> --}}
                         <img src="{{ isset($user) ? asset('storage/' . $user->profile_path) : asset('assets/images/table-img1.png') }}"
-                        class="main-profile-image" alt="profile">
+                            class="main-profile-image" alt="profile">
                         <div class="file file--upload">
                             <label for="input-file">
                                 <i class="fa-solid fa-camera"></i>
@@ -22,23 +22,23 @@
                 </div>
                 @error('profile')
                     <span class="invalid-txt" role="alert">{{ $message }}</span> <br>
-                 @enderror
+                @enderror
 
                 <div class="edit-input-bx">
-                    <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}"
+                        method="POST" enctype="multipart/form-data">
                         @csrf
-                        
+
                         <div class="input-box">
                             {{-- for profile input --}}
-                            <input id="input-file" type="file" hidden name="profile" placeholder="Choose image" value="{{ $user->profile_path ?? old('profile') }}"
-                            alt="no profile">
-                            
-                            
+                            <input id="input-file" type="file" hidden name="profile" placeholder="Choose image"
+                                value="{{ $user->profile_path ?? old('profile') }}" alt="no profile">
+
+
                             <div class="form-group">
                                 <div class="formfield">
-                                    <input type="text" class="form-control" name="name"
-                                        placeholder="Enter Name" value="{{ $user->name ?? old('name') }}">
+                                    <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                                        value="{{ $user->name ?? old('name') }}">
 
                                     <span class="form-icon">
                                         <i class="fa-solid fa-user"></i>
@@ -50,8 +50,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="formfield">
-                                    <input  class="form-control" name="business_startup"
-                                        placeholder="Business/ Startup" value="{{ $userDetails->business_startup ?? old('business_startup') }}">
+                                    <input class="form-control" name="business_startup" placeholder="Business/ Startup"
+                                        value="{{ $userDetails->business_startup ?? old('business_startup') }}">
 
                                     <span class="form-icon">
                                         <i class="fa-solid fa-envelope"></i>
@@ -63,8 +63,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="formfield">
-                                    <input type="email" class="form-control" name="email"
-                                        placeholder="Enter your email" value="{{ $user->email ?? old('email') }}">
+                                    <input type="email" class="form-control" name="email" placeholder="Enter your email"
+                                        value="{{ $user->email ?? old('email') }}">
 
                                     <span class="form-icon">
                                         <i class="fa-solid fa-envelope"></i>
@@ -90,7 +90,8 @@
                             <div class="form-group">
                                 <div class="formfield">
                                     <input type="text" class="form-control" name="complete_address"
-                                        placeholder="Complete address" value="{{ $userDetails->complete_address ?? old('complete_address') }}">
+                                        placeholder="Complete address"
+                                        value="{{ $userDetails->complete_address ?? old('complete_address') }}">
                                     <span class="form-icon">
                                         <i class="fa-solid fa-location-dot"></i>
                                     </span>
@@ -102,7 +103,8 @@
                             <div class="form-group">
                                 <div class="formfield">
                                     <input type="text" class="form-control" name="company_website"
-                                        placeholder="Complete website" value="{{ $userDetails->company_website ?? old('company_website') }}">
+                                        placeholder="Complete website"
+                                        value="{{ $userDetails->company_website ?? old('company_website') }}">
                                     <span class="form-icon">
                                         <i class="fa-solid fa-globe"></i>
                                     </span>
@@ -115,7 +117,8 @@
                             <div class="form-group">
                                 <div class="formfield">
                                     <input type="text" class="form-control" name="company_size"
-                                        placeholder="Complete Size" value="{{ $userDetails->company_size ?? old('company_size') }}">
+                                        placeholder="Complete Size"
+                                        value="{{ $userDetails->company_size ?? old('company_size') }}">
                                     <span class="form-icon">
                                         <i class="fa-solid fa-globe"></i>
                                     </span>
@@ -128,7 +131,7 @@
                         </div>
 
                         <button type="submit" class="button primary-btn full-btn">Save</button>
-                       
+
 
                     </form>
                 </div>
@@ -139,12 +142,13 @@
                 </h5>
                 <div class="as-passedit-box">
                     <div class="edit-input-bx">
-                        <form class="profile-edit-form" action="{{ route('changePassword', ['id' => auth()->user()->id]) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                            @if(session('success_password'))
+                        <form class="profile-edit-form"
+                            action="{{ route('changePassword', ['id' => auth()->user()->id]) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @if (session('success_password'))
                                 <div class="alert alert-success">
-                                    {{ session('success') }}
+                                    {{ session('success_password') }}
                                 </div>
                             @endif
                             <div class="input-box">
@@ -157,30 +161,31 @@
                                         </span>
                                     </div>
                                     @error('old_password')
-                                      <span class="invalid-txt" role="alert">{{ $message }}</span>
+                                        <span class="invalid-txt" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <div class="formfield">
-                                        <input type="password" class="form-control" name="password" placeholder="Password">
+                                        <input type="password" class="form-control" name="password"
+                                            placeholder="Password">
                                         <span class="form-icon">
                                             <i class="fa-solid fa-lock"></i>
                                         </span>
                                     </div>
                                     @error('password')
-                                      <span class="invalid-txt" role="alert">{{ $message }}</span>
+                                        <span class="invalid-txt" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <div class="formfield">
-                                        <input type="text" class="form-control" id="password_confirmation" name="password_confirmation"
-                                            placeholder="Confirm Password">
+                                        <input type="text" class="form-control" id="password_confirmation"
+                                            name="password_confirmation" placeholder="Confirm Password">
                                         <span class="form-icon">
                                             <i class="fa-solid fa-lock"></i>
                                         </span>
                                     </div>
                                     @error('password_confirmation')
-                                      <span class="invalid-txt" role="alert">{{ $message }}</span>
+                                        <span class="invalid-txt" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
 
@@ -188,12 +193,12 @@
                             </div>
 
                             <button type="submit" class="button primary-btn full-btn mt-3">Save password</button>
-                            {{-- @if ('status'=='success')
+                            {{-- @if ('status' == 'success')
                             <div class="alert alert-success" role="alert">
                                 <p>{{ ('Password updated successfully') }}</p>
                             </div>
                             @endif --}}
-                            
+
 
 
                         </form>
@@ -206,7 +211,8 @@
                             <span>Toggle all notifications</span>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" name="allactive" type="checkbox" id="flexSwitchCheckDefault">
+                            <input class="form-check-input" name="allactive" value="" type="checkbox"
+                                id="togel">
                         </div>
                     </div>
                     <div class="notify-setting-body">
@@ -215,7 +221,8 @@
                                 Truck driver accept the order
                             </span>
                             <div class="form-check form-switch">
-                                <input class="form-check-input"  name="accept_order" type="checkbox" id="flexSwitchCheckDefault"
+                                <input class="form-check-input flexSwitchCheckDefault" name="accept_order"
+                                    value="{{ $userNotification->accept_order ?? '0' }}" type="checkbox" id=""
                                     checked="">
                             </div>
                         </div>
@@ -224,8 +231,9 @@
                                 Subscription Plan
                             </span>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                                    checked="">
+                                <input class="form-check-input flexSwitchCheckDefault" type="checkbox"
+                                    name="subscription" value="{{ $userNotification->subscription ?? '0' }}"
+                                    id="" checked="">
                             </div>
                         </div>
                         <div class="notify-setting-detail">
@@ -233,7 +241,8 @@
                                 New Order
                             </span>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                <input class="form-check-input flexSwitchCheckDefault" type="checkbox" name="new_order"
+                                    value="{{ $userNotification->new_order ?? '0' }}" id="" checked="">
                             </div>
                         </div>
                         <div class="notify-setting-detail">
@@ -241,8 +250,8 @@
                                 Driver Issue
                             </span>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                                    checked="">
+                                <input class="form-check-input flexSwitchCheckDefault" type="checkbox" name="issue"
+                                    value="{{ $userNotification->issue ?? '0' }}" id="" checked="">
                             </div>
                         </div>
                     </div>
@@ -294,31 +303,51 @@
         });
     </script> --}}
 
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         $(document).ready(function() {
-        $('#flexSwitchCheckDefault').on('click', function() {
-            const notificationType = $(this).data('notification-type');
-            const isChecked = $(this).is(':checked');
+            $('.flexSwitchCheckDefault').click(function() {
+                const notificationName = $(this).attr(
+                'name'); // Retrieve 'name' attribute directly from the clicked checkbox
+                const value = $(this).val(); // Retrieve 'value' attribute from the clicked checkbox
 
-            $.ajax({
-                url: '/toggleNotification',
-                method: 'POST',
-                data: {
-                    notification_type: notificationType,
-                    status: isChecked ? 1 : 0
-                },
-                success: function(response) {
-                    
-                    console.log(response);
-                },
-                error: function(error) {
-                    
-                    console.error(error);
+                // const isChecked = $(this).prop('checked');
+
+                // AJAX call to send data to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('notification') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        notificationName: notificationName,
+                        value: value,
+                        // isChecked: isChecked
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#togel').click(function() {
+                $('.flexSwitchCheckDefault').prop('checked', this.checked);
+            });
+
+            $('.flexSwitchCheckDefault').click(function() {
+                if (!$(this).prop('checked')) {
+                    $('#togel').prop('checked', false);
                 }
             });
         });
-    });
-
     </script>
-@stop
 
+@stop

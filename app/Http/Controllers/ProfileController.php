@@ -19,13 +19,15 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $userDetails = $user->userDetails;
+        $userNotification = $user->userNotifications;
 
-        return view('accountsetting', compact('user', 'userDetails'));
+        return view('accountsetting', compact('user', 'userDetails', 'userNotification'));
     }
 
     public function editprofile(Request $request, $user_id)
     {
         $user = auth()->user();
+        $userNotification = $user->userNotifications;
         $userDetails = null;
         $errorMessage = null;
         
@@ -40,7 +42,7 @@ class ProfileController extends Controller
             $userDetails = new UserDetail();
         }
 
-        return view('accountedit', compact('user', 'userDetails', 'errorMessage'));
+        return view('accountedit', compact('user', 'userDetails', 'userNotification','errorMessage'));
     }
 
 

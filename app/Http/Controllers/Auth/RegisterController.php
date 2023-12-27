@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+use Spatie\Permission\Traits\HasRoles; // for permission role
+use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
+
 
 class RegisterController extends Controller
 {
@@ -58,6 +62,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
+            'role' => ['required'],
             'profile' => ['image'],
             
         ]);
@@ -73,18 +78,27 @@ class RegisterController extends Controller
     protected function create(array $data)
     {   
         $profilePath = null; // Default value
-        
+            
         // Check if the request has the 'profile' file
         if (isset($data['profile']) && $data['profile']->isValid()) {
             $profilePath = $data['profile']->store('profile_pics', 'public');
         }
 
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'profile_path' => $profilePath, // Save the profile path here
+            'profile_path' => $profilePath, 
         ]);
+
+        // Assign a role to the user
+        if($data['role']=='carrier'){
+        $user->assignRole('carrier');
+        }else{
+            $user->assignRole('distributor');
+        }
+    
+        return $user;
     }
 
 }

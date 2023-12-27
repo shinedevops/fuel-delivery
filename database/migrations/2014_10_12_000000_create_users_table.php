@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin','dispatcher','driver','distributor'])->default('dispatcher');
+            // $table->enum('role', ['admin','dispatcher','driver','distributor'])->default('dispatcher');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -30,8 +30,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
-    // Role::create(['name' => 'admin']);
-            // Role::create(['name' => 'distributor']);
-            // Role::create(['name' => 'driver']);
-            // Role::create(['name' => 'dispatcher']);
+    
 };

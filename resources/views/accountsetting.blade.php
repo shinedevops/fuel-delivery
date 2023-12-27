@@ -29,7 +29,7 @@
                                 {{ isset($userDetails) ? $userDetails->complete_address : 'NA' }}
                             </a></li>
                         <li><a href=""><i class="fa-solid fa-envelope"></i> {{ $user->email }}</a></li>
-                        <li><a href=""><i class="fa-solid fa-users"></i></i> 150+</a></li>
+                        <li><a href=""><i class="fa-solid fa-users"></i></i> {{ isset($userDetails) ? $userDetails->company_size : 'NA' }}</a></li>
                     </ul>
                 </div>
                 <div class="notify-setting-box">
@@ -38,8 +38,9 @@
                             <h3>All Notification</h3>
                             <span>Toggle all notifications</span>
                         </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <div class="form-check form-switch ">
+                            <input class="form-check-input" name="allactive" value="" type="checkbox"
+                                id="togel">
                         </div>
                     </div>
                     <div class="notify-setting-body">
@@ -48,7 +49,9 @@
                                 Truck driver accept the order
                             </span>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                                <input class="form-check-input flexSwitchCheckDefault" name="accept_order"
+                                    value="{{ $userNotification->accept_order ?? '0' }}" type="checkbox"
+                                    id="" checked="">
                             </div>
                         </div>
                         <div class="notify-setting-detail">
@@ -56,23 +59,27 @@
                                 Subscription Plan
                             </span>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                                <input class="form-check-input flexSwitchCheckDefault" type="checkbox" name="subscription"
+                                    value="{{ $userNotification->subscription ?? '0' }}" id=""
+                                    checked="">
                             </div>
                         </div>
                         <div class="notify-setting-detail">
                             <span>
                                 New Order
                             </span>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <div class="form-check form-switch flexSwitchCheckDefault">
+                                <input class="form-check-input flexSwitchCheckDefault" type="checkbox" name="new_order"
+                                    value="{{ $userNotification->new_order ?? '0' }}" id="" checked="">
                             </div>
                         </div>
                         <div class="notify-setting-detail">
                             <span>
                                 Driver Issue
                             </span>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                            <div class="form-check form-switch flexSwitchCheckDefault">
+                                <input class="form-check-input flexSwitchCheckDefault" type="checkbox" name="issue"
+                                    value="{{ $userNotification->issue ?? '0' }}" id="" checked="">
                             </div>
                         </div>
                     </div>
@@ -84,3 +91,49 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+<script>
+        $(document).ready(function() {
+            $('.flexSwitchCheckDefault').click(function() {
+                const notificationName = $(this).attr('name'); // Retrieve 'name' attribute directly from the clicked checkbox
+                const value = $(this).val(); // Retrieve 'value' attribute from the clicked checkbox
+
+                // const isChecked = $(this).prop('checked');
+
+                // AJAX call to send data to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('notification') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        notificationName: notificationName,
+                        value: value,
+                        // isChecked: isChecked
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('#togel').click(function(){
+            $('.flexSwitchCheckDefault').prop('checked', this.checked);
+            });
+
+            $('.flexSwitchCheckDefault').click(function(){
+            if(!$(this).prop('checked')){
+                $('#togel').prop('checked', false);
+            }
+            });
+        });
+    </script>
+@stop

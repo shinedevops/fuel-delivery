@@ -16,7 +16,7 @@
                         <img src="{{asset('assets/images/logo.svg')}}" alt="profile">
                     </div>
                     <div class="container">
-                        <samp>{{ auth()->user()->name }}</samp>
+                        <samp>{{ auth()->user()->name }} {{auth()->user()->getRoleNames()}}</samp>
                     </div>
                     <div class="last-nav d-flex">
                         <div class="dropdown">
