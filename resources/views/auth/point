@@ -1,0 +1,36 @@
+@foreach ($userDetails as $dedails)
+
+<tr>
+    <td>
+        <div class="table-data">
+            <div class="table-img">
+                <img src="/assets/images/table-img1.png" alt="">
+            </div>
+            {{ $dedails->name }}
+        </div>
+    </td>
+    <td>
+        <div class="table-data">
+            <i class="fa-solid fa-envelope"></i>
+            {{ $dedails->email}}
+        </div>
+    </td>
+    <td>
+        <div class="table-data">
+            <i class="fa-solid fa-phone"></i>
+            {{ $dedails->phone }}
+        </div>
+    </td>
+    <td>
+        <div class="table-data">
+            <i class="fa-solid fa-building"></i>
+            {{ $dedails->company }}
+        </div>
+    </td>
+    <td>
+        <div class="table-data">
+            <i class="fa-solid fa-trash-can"></i>
+        </div>
+    </td>
+</tr>
+@endforeach

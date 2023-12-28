@@ -37,7 +37,7 @@
 
                             <div class="form-group">
                                 <div class="formfield">
-                                    <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                                    <input type="text" class="form-control" name="name" placeholder="Enter Full Name"
                                         value="{{ $user->name ?? old('name') }}">
 
                                     <span class="form-icon">
@@ -321,7 +321,7 @@
                         "_token": "{{ csrf_token() }}",
                         notificationName: notificationName,
                         value: value,
-                        // isChecked: isChecked
+                        
                     },
                     success: function(response) {
                         // Handle success response

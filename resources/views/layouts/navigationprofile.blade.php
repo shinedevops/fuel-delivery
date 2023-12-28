@@ -16,7 +16,14 @@
                         <img src="{{asset('assets/images/logo.svg')}}" alt="profile">
                     </div>
                     <div class="container">
-                        <samp>{{ auth()->user()->name }} {{auth()->user()->getRoleNames()}}</samp>
+                        <samp>{{ auth()->user()->name }}</samp> 
+                            {{-- {{auth()->user()->getRoleNames()}} --}}
+                        
+                         <b>Roles:</b> 
+                        @foreach(auth()->user()->getRoleNames() as $role)
+                            {{ $role }}
+                        @endforeach
+
                     </div>
                     <div class="last-nav d-flex">
                         <div class="dropdown">

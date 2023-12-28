@@ -4,6 +4,7 @@ use App\Http\Controllers\UserDetailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ProfileController;
 // use App\Http\Controllers\DriverController;
+use App\Http\Controllers\DispatcherController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,12 @@ Route::middleware(['auth'])->group(function () {
     // for Notification
     Route::post('/toggleNotification', [NotificationController::class, 'toggleNotification'])->name('notification');
 
+
+    // Roude for Shidebar
+    // Route::view('/dispatcher/page', 'dispatchersmanagement')->name('dispatcher');
+    Route::get('/dispatcher/page', [UserController::class, 'dispatcherpage'])->name('dispatcher');
+    Route::post('/dispatcher/add/{id}', [UserController::class, 'add'])->name('dispatcheradd');
+    Route::post('/deletecarrier', [UserController::class, 'delete'])->name('deleteuser');
 
 });
 

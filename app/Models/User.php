@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'edit_by',
         'name',
         'email',
         'password',
@@ -62,5 +63,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(UserNotification::class,'user_id','id');
     }
+
+    // public function roles()
+    // {
+    //     return $this->hasOne(UserNotification::class,'user_id','id');
+    // }
     
 }

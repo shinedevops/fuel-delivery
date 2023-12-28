@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('edit_by')->nullable()->references('id')->on('users')->onDelete('CASCADE');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             // $table->enum('role', ['admin','dispatcher','driver','distributor'])->default('dispatcher');
             $table->rememberToken();
             $table->timestamps();

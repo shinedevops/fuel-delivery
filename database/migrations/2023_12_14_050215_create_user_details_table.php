@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('CASCADE');
             $table->string('company_name')->nullable();
             $table->string('company_website')->nullable();
             $table->string('complete_address')->nullable();
