@@ -226,13 +226,13 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 7px;
-    min-height: 37px;
-    max-width: 97px;
-    width: 100%;
+    right: 5px;
+    min-height: 20px;
+    max-width: 100px;
+    width: 110%;
     min-width: unset;
-    font-weight: 500;
-    line-height: 23px;
+    font-weight: 400;
+    line-height: 10px;
     padding: 7px 11px;
 } 
 .right-db-head .formfield input{

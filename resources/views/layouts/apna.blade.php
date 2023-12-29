@@ -57,6 +57,16 @@
             });
         });
     </script>
+    <script>
+        // This assumes you want to target the third <li> element, change color on its <a> tag when clicked
+        $(document).ready(function() {
+            $('.dashboard-link-list li:nth-child(3) a').on('click', function() {
+                $(this).css('background', '#fff');
+    
+            });
+        });
+
+    </script>
 
 </body>
 

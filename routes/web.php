@@ -54,6 +54,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dispatcher/page', [UserController::class, 'dispatcherpage'])->name('dispatcher');
     Route::post('/dispatcher/add/{id}', [UserController::class, 'add'])->name('dispatcheradd');
     Route::post('/deletecarrier', [UserController::class, 'delete'])->name('deleteuser');
+    Route::post('/dispatcher/editdata', [UserController::class, 'editdata'])->name('editdata');
+
+    Route::post('/dispatcher/edit/{id}', [UserController::class, 'edit'])->name('edituser');
+
+    // Serching 
+    Route::post('/dispatche/search', [UserController::class, 'serchdata'])->name('search');
+
 
 });
 

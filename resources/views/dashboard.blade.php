@@ -4,7 +4,7 @@
     @endsection
 
  
-    @section('editcontent')
+    {{-- @section('editcontent')
         <div class="modal fade cstm-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-    @endsection
+    @endsection --}}
     
 
   
