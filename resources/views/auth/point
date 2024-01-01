@@ -34,3 +34,69 @@
     </td>
 </tr>
 @endforeach
+
+
+// Data for editdata
+public function editdata(Request $request)
+{
+try {
+$userId = $request->input('user_id');
+
+// Fetch user data
+$user = User::find($userId);
+
+if (!$user) {
+throw new \Exception('User not found');
+}
+
+$userDetails = $user->userDetails; // if relation
+
+// both user and userDetails as JSON
+return response()->json([
+'user' => $user,
+'userDetails' => $userDetails,
+]);
+} catch (\Exception $e) {
+return response()->json(['error' => $e->getMessage()], 500);
+
+}
+}  
+
+// Update ( with route )
+public function edit(Request $request, $id)
+{
+$userId = $id;
+
+$request->validate([
+'nameedit' => 'required|string',
+'emailedit' => 'required|email|unique:users,email', // Fix the 'emailedit' to 'email' here
+'phoneedit' => 'required|numeric',
+], [
+'emailedit.unique' => 'Email already exists',
+'phoneedit.numeric' => 'Phone must be a number',
+]);
+
+$user = User::find($userId); // Find the user by ID
+
+if (!$user) {
+return redirect()->back()->with('error', 'User not found');
+}
+
+$user->name = $request->input('nameedit');
+$user->email = $request->input('emailedit');
+$user->save();
+
+$userDetails = $user->userDetails; // Assuming the relationship name is userDetails()
+
+if (!$userDetails) {
+// Create a new UserDetails record if it doesn't exist
+$userDetails = new UserDetails();
+$userDetails->user_id = $userId;
+}
+
+$userDetails->phone_number = $request->input('phoneedit');
+$userDetails->save();
+
+return redirect()->back()->with('successupdate', 'User details updated successfully');
+
+}

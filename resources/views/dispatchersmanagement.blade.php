@@ -9,18 +9,22 @@
                 <form id="searchdata" method="POST" action="{{ route('search') }}">
                     @csrf
                     <!-- Your form fields here -->
-                    <input type="text" id="search_data" class="form-control" name="search" placeholder="Type to Search.." value="{{ old('search') }}">
+                    <input type="text" id="search_data" class="form-control" name="search" placeholder="Type to Search.."
+                        value="{{ old('search') }}">
 
-                    <button type="submit" class="button search-btn"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+                    <button type="submit" class="button search-btn"><i
+                            class="fa-solid fa-magnifying-glass"></i>Search</button>
                 </form>
 
             </div>
             <a href="#" type="button" class="button primary-btn" data-bs-toggle="modal"
-            data-bs-target="#dispatchersManagementPopup"><i class="fa-solid fa-plus"></i>Invite dispatchers</a>
-                
+                data-bs-target="#dispatchersManagementPopup"><i class="fa-solid fa-plus"></i>Invite dispatchers</a>
+
 
         </div>
     </div>
+
+    {{-- listing dtat user --}}
     <div class="db-table-box">
         <div class="tb-table">
             <table>
@@ -76,11 +80,12 @@
                                     <i class="fa-solid fa-trash-can" style="color: #FD5C5C;"></i>
                                 </div><br>
                                 <div class="table-data edit-user" data-user-id="{{ $details->id }}">
-                                    
+
                                     {{-- <a href="{{ route('editdata', ['user_id' => $details->id]) }}" type="button" --}}
-                                        {{-- class="fa-solid fa-pencil" data-bs-toggle="modal" --}}
-                                        <i class="fa-solid fa-pencil" style="color: #FD5C5C;" data-bs-toggle="modal" data-bs-target="#dispatcherEdit"></i>
-                                        {{-- data-bs-target="#dispatcherEdit"></a> --}}
+                                    {{-- class="fa-solid fa-pencil" data-bs-toggle="modal" --}}
+                                    <i class="fa-solid fa-pencil" data-bs-toggle="modal"
+                                        data-bs-target="#dispatcherEdit"></i>
+                                    {{-- data-bs-target="#dispatcherEdit"></a> --}}
                                 </div>
 
                             </td>
@@ -160,8 +165,10 @@
     </div>
 @endsection
 
-    {{-- Add User --}}
+
+
 @section('editcontent')
+    {{-- Add User --}}
     <div class="modal fade cstm-modal" id="dispatchersManagementPopup" tabindex="-1"
         aria-labelledby="DispatchersManagementPopLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -237,7 +244,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="button primary-btn full-btn">Send Invitation</button>
+                            <button type="submit" class="button primary-btn full-btn add">Send Invitation</button>
 
                         </form>
 
@@ -266,15 +273,15 @@
                         <div class="login-header text-center">
                             <h4>Edit dispatcher</h4>
                         </div>
-                        <form id="registerformedit" class="addnew-dis-form"
-                            action="{{ route('edituser', ['id' => $details->id]) }}" method="POST"
+                        <form id="registerformedit" class="addnew-dis-form" action="" method="POST"
                             enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" id="editUserId" name="id" value="">
                             <div class="input-box">
                                 <div class="form-group">
                                     <div class="formfield">
-                                        <input type="text" class="form-control" name="nameedit"
-                                            placeholder="Full Name" value="{{ $details->name ?? old('name') }}">
+                                        <input type="text" class="form-control" name="nameedit" id="name_detail"
+                                            placeholder="Full Name" value="{{ old('nameedit') }}">
                                         <span class="form-icon">
                                             <i class="fa-solid fa-user"></i>
                                         </span>
@@ -286,7 +293,7 @@
 
                                 <div class="form-group">
                                     <div class="formfield">
-                                        <input type="email" class="form-control" name="emailedit"
+                                        <input type="email" class="form-control" name="emailedit" id='email_details'
                                             placeholder="Enter your email" value="{{ old('emailedit') }}">
 
                                         <span class="form-icon">
@@ -300,7 +307,7 @@
 
                                 <div class="form-group">
                                     <div class="formfield">
-                                        <input type="text" class="form-control" name="phoneedit"
+                                        <input type="text" class="form-control" name="phoneedit" id='phone_number'
                                             placeholder="Enter your phone number" value="{{ old('phoneedit') }}">
                                         <span class="form-icon">
                                             <i class="fa-solid fa-phone"></i>
@@ -311,10 +318,34 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div id="errorMessage"></div>
+                            {{-- <div class="alert alert-success alert-dismissible fade show" role="alert" id="errorMessage"> </div> --}}
 
-                            <button type="submit" class="button primary-btn full-btn">Update</button>
+                            {{-- <span class="alert alert-success alert-dismissible fade show" role="alert" id="errorMessage"></span> --}}
+                            <button type="submit" class="button primary-btn full-btn edit"
+                                id="editbutton">Update</button>
 
                         </form>
+                        {{-- <div id="deleteSuccessModal"></div> --}}
+                        <div class="modal fade" id="deleteSuccessModal" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete Success</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        User has been deleted successfully!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -323,9 +354,10 @@
         </div>
     </div>
 @endsection
-{{-- for delete user --}}
-@section('scripts')
 
+
+@section('scripts')
+    {{-- for delete user --}}
     <script>
         $(document).ready(function() {
             $('.delete-user').on('click', function() {
@@ -334,54 +366,124 @@
                 if (confirm('Are you sure you want to delete this user?')) {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('deleteuser') }}', 
+                        url: '{{ route('deleteuser') }}',
                         data: {
                             "_token": "{{ csrf_token() }}",
                             "id": userId,
                         },
                         success: function(response) {
-                            console.log(response);
+                            console.log(response.successdelete);
 
-                            location.reload();
+                            if (response.successdelete && response.successdelete !== "") {
+                               
+                                // $('body').append(modalContent);
+                                $('#deleteSuccessModal').modal('show');
+                            } else {
+                                location.reload();
+                            }
                         },
-                        error: function(xhr, status, error) {
 
+                        error: function(xhr, status, error) {
                             console.log(error);
                         }
                     });
                 }
             });
-            
         });
     </script>
 
+    {{-- for fetch data for edit --}}
     <script>
         $(document).ready(function() {
-             // fetch data foer edit 
             $('.edit-user').on('click', function(event) {
-                event.preventDefault(); 
+                event.preventDefault();
                 var userId = $(this).data('user-id');
 
                 if (confirm('Are you sure you want to Edit this user?')) {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('editdata') }}', // Use the href attribute of the clicked link
+                        url: '{{ route('editdata') }}',
                         data: {
                             "_token": "{{ csrf_token() }}",
-                            "user_id": userId, // Send the user ID as data
+                            "user_id": userId,
                         },
                         success: function(response) {
-                            
-                            $('#dispatcherEdit').html(response); // Assuming 'dispatcherEdit' is the ID of the element to 
+
+                            // Access the 'name' property within the 'user' object
+                            console.log(response.user.name);
+                            // Set values in modal fields
+                            var editUrl = '{{ route('edituser', ['id' => '']) }}/' + (response
+                                .user.id ?? 0);
+                            // $('#registerformedit').attr('action', editUrl);
+                            $('#editUserId').val(response.user.id);
+                            $('#email_details').val(response.user.email);
+                            $('#name_detail').val(response.user.name);
+                            $('#phone_number').val(response.userDetails.phone_number);
+
+                            // Show the modal after setting the values
                             $('#dispatcherEdit').modal('show');
                         },
                         error: function(xhr, status, error) {
                             console.log(error);
                         }
                     });
+                } else {
+
                 }
             });
-            
+        });
+    </script>
+
+    {{-- update user  --}}
+    <script>
+        $(document).ready(function() {
+            $('#editbutton').on('click', function(event) {
+                event.preventDefault();
+
+                var userId = $('#editUserId').val();
+                var Name = $('#name_detail').val();
+                var Phone = $('#phone_number').val();
+                var Email = $('#email_details').val();
+                console.log(userId);
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('edituser') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "user_id": userId,
+                        "nameedit": Name,
+                        "emailedit": Email,
+                        "phoneedit": Phone,
+                    },
+                    success: function(response) {
+                        // Handle success response here
+                        var successMessage =
+                            '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                            response.message +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            '</div>';
+
+                        $('#errorMessage').empty(); // Clear any previous messages
+                        $('#errorMessage').append(successMessage); // Append success message
+                    },
+                    error: function(xhr, status, error) {
+                        var errors = JSON.parse(xhr.responseText);
+
+                        $('#name_detail').addClass('is-invalid');
+                        $('#email_details').addClass('is-invalid');
+                        $('#phone_number').addClass('is-invalid');
+
+                        $('#name_detail').parent().find('.invalid-txt').val('Error: ' + (errors
+                            .errors.nameedit || 'valid email'));
+                        $('#email_details').parent().find('.invalid-txt').val('Error: ' + (
+                            errors.errors.emailedit || ''));
+                        $('#phone_number').parent().find('.invalid-txt').val('Error: ' + (
+                            errors.errors.phoneedit || ''));
+
+                    }
+
+                });
+            });
         });
     </script>
 
@@ -428,7 +530,9 @@
 
         });
     </script>
-    <script>
+
+    {{-- for update form validation --}}
+    {{-- <script>
         $(document).ready(function() {
             $("#registerformedit").validate({
                 rules: {
@@ -470,7 +574,7 @@
             // Click event handler for the "Next" button
 
         });
-    </script>
+    </script> --}}
 
 
 @stop

@@ -1,0 +1,66 @@
+ {{-- show model if any error  --}}
+    <script>
+        $(document).ready(function() {
+            
+                event.preventDefault();
+
+                // Fetch the text content of the element with class 'invalid-txt'
+                var invalidText = $('.invalid-txt').text().trim();
+                 console.log(invalidText);
+                if (!invalidText ) {
+                    $('#registerformedit').submit();
+                } else {
+                    $('#registerformedit').modal('show');
+                }
+            
+        });
+    </script>
+
+    //  Update with ajax
+    public function edit(Request $request)
+    {   
+        try {
+            $userId = $request->input('user_id');
+            $nameedit = $request->input('nameedit');
+            $emailedit = $request->input('emailedit');
+            $phoneedit = $request->input('phoneedit');
+
+            $request->validate([
+                'nameedit' => 'required|string',
+                'emailedit' => 'required|email|unique:users,email',
+                'phoneedit' => 'required|numeric',
+            ], [
+                'emailedit.unique' => 'Email already exists',
+                'phoneedit.numeric' => 'Phone must be a number',
+            ]);
+
+            $user = User::find($userId);
+
+            if (!$user) {
+                throw new \Exception('User not found');
+            }
+
+            $user->name = $nameedit;
+            $user->email = $emailedit;
+            $user->save();
+
+            $userDetails = $user->userDetails;
+
+            if (!$userDetails) {
+                $userDetails = new UserDetails();
+                $userDetails->user_id = $userId;
+            }
+
+            $userDetails->phone_number = $phoneedit;
+            $userDetails->save();
+            
+            return response()->json([
+                'user' => $user,
+                'userDetails' => $userDetails,
+                'message' => 'Update successful',
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }

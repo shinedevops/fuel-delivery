@@ -86,75 +86,81 @@ class UserController extends Controller
         }
     }
     //  Update
-    public function edit(Request $request, $id )
+    public function edit(Request $request)
     {   
-         
-        $userId = $id;
-        // dd($userId);
-        $request->validate([
-        'nameedit' => 'required|string',
-        'emailedit' => 'required|email|unique:users,email', // Fix the 'emailedit' to 'email' here
-        'phoneedit' => 'required|numeric',
-        ], [
-            'emailedit.unique' => 'Email already exists', 
-            'phoneedit.numeric' => 'Phone must be a number', 
-        ]);
-        
-        $user = User::find($userId); // Find the user by ID
+        try {
+            $userId = $request->input('user_id');
+            $nameedit = $request->input('nameedit');
+            $emailedit = $request->input('emailedit');
+            $phoneedit = $request->input('phoneedit');
+
+            $request->validate([
+                'nameedit' => 'required|string',
+                'emailedit' => 'required|email|unique:users,email',
+                'phoneedit' => 'required|numeric',
+            ], [
+                'emailedit.unique' => 'Email already exists',
+                'phoneedit.numeric' => 'Phone must be a number',
+            ]);
+
+            $user = User::find($userId);
+
+            if (!$user) {
+                throw new \Exception('User not found');
+            }
+
+            $user->name = $nameedit;
+            $user->email = $emailedit;
+            $user->save();
+
+            $userDetails = $user->userDetails;
+
+            if (!$userDetails) {
+                $userDetails = new UserDetails();
+                $userDetails->user_id = $userId;
+            }
+
+            $userDetails->phone_number = $phoneedit;
+            $userDetails->save();
+            
+            return response()->json([
+                'user' => $user,
+                'userDetails' => $userDetails,
+                'successdelete' => 'Update successful',
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    
+   
+    // Data for editdata
+    public function editdata(Request $request)
+    {
+        try {
+        $userId = $request->input('user_id');
+
+        // Fetch user data
+        $user = User::find($userId);
 
         if (!$user) {
-            return redirect()->back()->with('error', 'User not found');
+        throw new \Exception('User not found');
         }
 
-        $user->name = $request->input('nameedit');
-        $user->email = $request->input('emailedit');
-        $user->save();
+        $userDetails = $user->userDetails; // if relation
 
-        $userDetails = $user->userDetails; // Assuming the relationship name is userDetails()
+        // both user and userDetails as JSON
+        return response()->json([
+        'user' => $user,
+        'userDetails' => $userDetails,
+        ]);
+        } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
 
-        if (!$userDetails) {
-            // Create a new UserDetails record if it doesn't exist
-            $userDetails = new UserDetails();
-            $userDetails->user_id = $userId;
         }
-
-        $userDetails->phone_number = $request->input('phoneedit');
-        $userDetails->save();
-
-        return redirect()->back()->with('successupdate', 'User details updated successfully');
-    }
-    
-    // Data for edit
-     public function editdata(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-        ]);
-
-        // Find the user
-        // $user = User::find($id);
-
-        // Get the authenticated user
-        $user = auth()->user();
-
-        $newUser = User::updateOrCreateCreate([
-            'edit_by' => $user->id,
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-        ]);
-        $newUser->assignRole('carrier'); // assine role
-        // Create or update user details associated with the new user
-        $phone = $request->input('phone');
-
-        $userDetails = UserDetail::updateOrCreate(
-            ['user_id' => $newUser->id], // Search criteria
-            ['phone_number' => $phone] // Data to be updated or inserted
-        );
-
-        return redirect()->back()->with('success', 'Dispatcher details added successfully');
-    }
+    }  
 
     // Searching 
     public function serchdata(Request $request)

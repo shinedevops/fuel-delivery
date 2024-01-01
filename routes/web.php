@@ -56,8 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/deletecarrier', [UserController::class, 'delete'])->name('deleteuser');
     Route::post('/dispatcher/editdata', [UserController::class, 'editdata'])->name('editdata');
 
-    Route::post('/dispatcher/edit/{id}', [UserController::class, 'edit'])->name('edituser');
-
+    Route::post('/dispatcher/edit', [UserController::class, 'edit'])->name('edituser');  // if edit by route then add id
+    
     // Serching 
     Route::post('/dispatche/search', [UserController::class, 'serchdata'])->name('search');
 
