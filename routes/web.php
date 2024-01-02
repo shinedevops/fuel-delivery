@@ -59,7 +59,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dispatcher/edit', [UserController::class, 'edit'])->name('edituser');  // if edit by route then add id
     
     // Serching 
-    Route::post('/dispatche/search', [UserController::class, 'serchdata'])->name('search');
+    // Route::post('/dispatche/search', [UserController::class, 'searchData'])->name('search');
+    Route::match(['get', 'post'], '/dispatche/search', [UserController::class, 'searchData'])->name('search');
+
 
 
 });

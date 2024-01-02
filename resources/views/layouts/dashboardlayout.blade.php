@@ -204,7 +204,7 @@
                         <td>
                             <div class="table-data">
                                 <div class="table-img">
-                                    <img src="{{ asset('assets/images/table-img1.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/images/profile.png') }}" alt="">
                                 </div>
                                 Roger Bergson
                             </div>

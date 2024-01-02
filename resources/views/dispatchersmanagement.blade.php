@@ -6,7 +6,8 @@
             <div class="formfield">
                 {{-- <input type="text" id="search_data" class="form-control" name="Search" placeholder="Type to Search..">
                 <a href="#" class="button search-btn"><i class="fa-solid fa-magnifying-glass"></i>Search</a> --}}
-                <form id="searchdata" method="POST" action="{{ route('search') }}">
+                <form id="searchdata" method="POST" action="{{ route('search') }}" enctype="multipart/form-data"
+                    class="addnew-dis-form">
                     @csrf
                     <!-- Your form fields here -->
                     <input type="text" id="search_data" class="form-control" name="search" placeholder="Type to Search.."
@@ -45,8 +46,14 @@
                                 <div class="table-data">
                                     <div class="table-img">
                                         {{-- <img src="/assets/images/table-img1.png" alt=""> --}}
-                                        <img src="{{ isset(auth()->user()->profile_path) ? asset('storage/' . auth()->user()->profile_path) : asset('assets/images/table-img1.png') }}"
-                                            class="user-profile">
+                                        {{-- <img src="{{ isset(auth()->user()->profile_path) ? asset('storage/' . auth()->user()->profile_path) : asset('assets/images/table-img1.png') }}"
+                                            class="user-profile"> --}}
+                                        {{-- <img src="{{ asset('storage/' . $details->profile_path) ?? asset('assets/images/table-img1.png') }}"
+                                            class="user-profile" > --}}
+                                        <img src="{{ asset($details->profile_path ? 'storage/' . $details->profile_path : 'assets/images/profile.png') }}"
+                                            class="user-profile" alt="Profile Image">
+
+
                                     </div>
                                     {{ $details->name }}
                                 </div>
@@ -72,9 +79,6 @@
                             </td>
 
                             <td>
-                                {{-- <div class="table-data">
-                                <i class="fa-solid fa-trash-can" style="color: #FD5C5C;"></i>
-                                </div> --}}
 
                                 <div class="table-data delete-user" data-user-id="{{ $details->id }}">
                                     <i class="fa-solid fa-trash-can" style="color: #FD5C5C;"></i>
@@ -138,7 +142,10 @@
                     fill="CurrentColor" />
             </svg>
         </div>
-        <div class="pagination-no-bx">
+        {{ $users->links('pagination::simple-bootstrap-5') }}
+        {{-- {{ $users->onEachSide(1)->withQueryString()->onEachSide(1)->links('pagination::simple-bootstrap-4') }} --}}
+
+        {{-- <div class="pagination-no-bx">
             <div class="pagination-no active">
                 1
             </div>
@@ -154,7 +161,8 @@
             <div class="pagination-no">
                 10
             </div>
-        </div>
+        </div> --}}
+
         <div class="pagination-next active">
             <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
                 <path
@@ -169,7 +177,7 @@
 
 @section('editcontent')
     {{-- Add User --}}
-    <div class="modal fade cstm-modal" id="dispatchersManagementPopup" tabindex="-1"
+    <div class="modal fade cstm-modal add-modal" id="dispatchersManagementPopup" tabindex="-1"
         aria-labelledby="DispatchersManagementPopLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -256,7 +264,7 @@
     </div>
 
     {{-- for Edit --}}
-    <div class="modal fade cstm-modal" id="dispatcherEdit" tabindex="-1"
+    <div class="modal fade cstm-modal edit-modal" id="dispatcherEdit" tabindex="-1"
         aria-labelledby="DispatchersManagementPopLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -286,8 +294,9 @@
                                             <i class="fa-solid fa-user"></i>
                                         </span>
                                     </div>
+                                    <span class="invalid-txt" id="name-errors"></span>
                                     @error('nameedit')
-                                        <span class="invalid-txt" role="alert">{{ $message }}</span>
+                                        <span class="invalid-txt name-error" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
 
@@ -300,8 +309,9 @@
                                             <i class="fa-solid fa-envelope"></i>
                                         </span>
                                     </div>
+                                    <span class="invalid-txt" id="email-errors"></span>
                                     @error('emailedit')
-                                        <span class="invalid-txt" role="alert">{{ $message }}</span>
+                                        <span class="invalid-txt email-error" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
 
@@ -313,8 +323,9 @@
                                             <i class="fa-solid fa-phone"></i>
                                         </span>
                                     </div>
+                                    <span class="invalid-txt" id="phone-errors"></span>
                                     @error('phoneedit')
-                                        <span class="invalid-txt" role="alert">{{ $message }}</span>
+                                        <span class="invalid-txt phone-error" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -326,26 +337,7 @@
                                 id="editbutton">Update</button>
 
                         </form>
-                        {{-- <div id="deleteSuccessModal"></div> --}}
-                        <div class="modal fade" id="deleteSuccessModal" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Delete Success</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        User has been deleted successfully!
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
 
                     </div>
                 </div>
@@ -357,37 +349,58 @@
 
 
 @section('scripts')
+
+    <!-- SweetAlert CDN link -->
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> --}}
+
     {{-- for delete user --}}
     <script>
         $(document).ready(function() {
             $('.delete-user').on('click', function() {
                 var userId = $(this).data('user-id');
 
-                if (confirm('Are you sure you want to delete this user?')) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('deleteuser') }}',
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "id": userId,
-                        },
-                        success: function(response) {
-                            console.log(response.successdelete);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You want to delete this user.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('deleteuser') }}',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": userId,
+                            },
+                            success: function(response) {
+                                console.log(response.successDelete);
 
-                            if (response.successdelete && response.successdelete !== "") {
-                               
-                                // $('body').append(modalContent);
-                                $('#deleteSuccessModal').modal('show');
-                            } else {
-                                location.reload();
+                                if (response.successDelete && response.successDelete !==
+                                    "") {
+                                    Swal.fire({
+                                        title: "Delete!",
+                                        text: "The deletion was successful.",
+                                        icon: "success"
+                                    }).then((result) => {
+                                        if (result.isConfirmed || result
+                                            .isDismissed) {
+                                            location.reload();
+                                        }
+                                    });
+                                } else {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
                             }
-                        },
-
-                        error: function(xhr, status, error) {
-                            console.log(error);
-                        }
-                    });
-                }
+                        });
+                    }
+                });
             });
         });
     </script>
@@ -398,38 +411,51 @@
             $('.edit-user').on('click', function(event) {
                 event.preventDefault();
                 var userId = $(this).data('user-id');
+                // alert("Are you sure you want to Edit this user?");
 
-                if (confirm('Are you sure you want to Edit this user?')) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('editdata') }}',
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "user_id": userId,
-                        },
-                        success: function(response) {
+                // if (confirm('Are you sure you want to Edit this user?')) {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('editdata') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "user_id": userId,
+                    },
+                    success: function(response) {
 
-                            // Access the 'name' property within the 'user' object
-                            console.log(response.user.name);
-                            // Set values in modal fields
-                            var editUrl = '{{ route('edituser', ['id' => '']) }}/' + (response
-                                .user.id ?? 0);
-                            // $('#registerformedit').attr('action', editUrl);
-                            $('#editUserId').val(response.user.id);
-                            $('#email_details').val(response.user.email);
-                            $('#name_detail').val(response.user.name);
-                            $('#phone_number').val(response.userDetails.phone_number);
+                        // Access the 'name' property within the 'user' object
+                        console.log(response.user.name);
+                        // Set values in modal fields
+                        var editUrl = '{{ route('edituser', ['id' => '']) }}/' + (response
+                            .user.id ?? 0);
+                        // $('#registerformedit').attr('action', editUrl);
+                        $('#editUserId').val(response.user.id);
+                        $('#email_details').val(response.user.email);
+                        $('#name_detail').val(response.user.name);
+                        $('#phone_number').val(response.userDetails.phone_number);
 
-                            // Show the modal after setting the values
-                            $('#dispatcherEdit').modal('show');
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(error);
-                        }
-                    });
-                } else {
+                        // Show the modal after setting the values
+                        // $('#dispatcherEdit').modal('show');
 
-                }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+                // } else {
+                //     location.reload();
+                // }
+            });
+        });
+    </script>
+
+    {{-- disable modal --}}
+    <script>
+        $(document).ready(function() {
+            $('.popup-btn-close').on('click', function(event) {
+                location.reload();
+                // window.location.href = data.redirect;
+
             });
         });
     </script>
@@ -439,7 +465,7 @@
         $(document).ready(function() {
             $('#editbutton').on('click', function(event) {
                 event.preventDefault();
-
+                // location->reload();
                 var userId = $('#editUserId').val();
                 var Name = $('#name_detail').val();
                 var Phone = $('#phone_number').val();
@@ -459,28 +485,30 @@
                         // Handle success response here
                         var successMessage =
                             '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                            response.message +
+                            response.successUpdate +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             '</div>';
 
                         $('#errorMessage').empty(); // Clear any previous messages
                         $('#errorMessage').append(successMessage); // Append success message
+
                     },
                     error: function(xhr, status, error) {
                         var errors = JSON.parse(xhr.responseText);
+                        console.log(errors);
 
-                        $('#name_detail').addClass('is-invalid');
-                        $('#email_details').addClass('is-invalid');
-                        $('#phone_number').addClass('is-invalid');
-
-                        $('#name_detail').parent().find('.invalid-txt').val('Error: ' + (errors
-                            .errors.nameedit || 'valid email'));
-                        $('#email_details').parent().find('.invalid-txt').val('Error: ' + (
-                            errors.errors.emailedit || ''));
-                        $('#phone_number').parent().find('.invalid-txt').val('Error: ' + (
-                            errors.errors.phoneedit || ''));
+                        $('#name-errors').html('Error: ' + (
+                            errors.error ? errors.error.nameedit || '' : ''
+                        ));
+                        $('#email-errors').html('Error: ' + (
+                            errors.error ? errors.error || '' : ''
+                        ));
+                        $('#phone-errors').html('Error: ' + (
+                            errors.error ? errors.error.phoneedit || '' : ''
+                        ));
 
                     }
+
 
                 });
             });

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles; // for permission role
 use Spatie\Permission\Models\Role;
+use Illuminate\Pagination\Paginator;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -22,16 +24,21 @@ class UserController extends Controller
         $user = auth()->user();
         $id =$user->id;
         // Retrieve all users who have the 'carrier' role
-       
-        $users = User::role('carrier')->get();
+     
+        // First method +++++
+
+        // $users = User::role('carrier')->get();
         // foreach( $users as $singleUser ){
         //     echo $singleUser->userDetails->phone_number . "<br>";
-
         // }
         // exit;
+        // return view('dispatchersmanagement', compact('users'));
         
-        
+        // fetch data with pagination +++++
+
+        $users = User::role('carrier')->paginate(2);
         return view('dispatchersmanagement', compact('users'));
+
     }
 
     // Add user
@@ -80,9 +87,9 @@ class UserController extends Controller
             $user = User::findOrFail($userId);
             $user->delete();
 
-            return response()->json(['message' => 'User deleted successfully']);
+            return response()->json(['successDelete' => 'User deleted successfully']);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to delete user']);
+            return response()->json(['successDelete' => 'Failed to delete user']);
         }
     }
     //  Update
@@ -126,11 +133,12 @@ class UserController extends Controller
             return response()->json([
                 'user' => $user,
                 'userDetails' => $userDetails,
-                'successdelete' => 'Update successful',
+                'successUpdate' => 'Update successful',
             ]);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => $e->getMessage()], 500);
         }
     }
 
@@ -163,17 +171,17 @@ class UserController extends Controller
     }  
 
     // Searching 
-    public function serchdata(Request $request)
+    public function searchData(Request $request)
     {   
         // Fetch users where the name or email matches the search term
         $search = $request->input('search') ?? "";
         If($search==""){
-          $users = User::role('carrier')->get();
+          $users = User::role('carrier')->paginate(2);
         }else{
           $users = User::role('carrier')
                     ->where('name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%")
-                    ->get();
+                    ->paginate(2);
         
         }
         
