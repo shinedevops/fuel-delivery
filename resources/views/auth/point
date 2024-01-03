@@ -37,8 +37,8 @@
 
 <!-- edit data in controller -->
 
-// Data for editdata
-public function editdata(Request $request)
+// Data for fetchdata
+public function fetchdata(Request $request)
 {
 try {
 $userId = $request->input('user_id');

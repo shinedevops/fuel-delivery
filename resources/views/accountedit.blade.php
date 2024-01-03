@@ -25,7 +25,7 @@
                 @enderror
 
                 <div class="edit-input-bx">
-                    <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}"
+                    <form class="profile-edit-form" action="{{ route('update-profile', ['id' => auth()->user()->id]) }}"
                         method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -147,7 +147,7 @@
                             enctype="multipart/form-data">
                             @csrf
                             @if (session('success_password'))
-                                <div class="alert alert-success">
+                                <div class="alert alert-success" id="successAlert">
                                     {{ session('success_password') }}
                                 </div>
                             @endif
@@ -308,7 +308,7 @@
         $(document).ready(function() {
             $('.flexSwitchCheckDefault').click(function() {
                 const notificationName = $(this).attr(
-                'name'); // Retrieve 'name' attribute directly from the clicked checkbox
+                    'name'); // Retrieve 'name' attribute directly from the clicked checkbox
                 const value = $(this).val(); // Retrieve 'value' attribute from the clicked checkbox
 
                 // const isChecked = $(this).prop('checked');
@@ -321,7 +321,7 @@
                         "_token": "{{ csrf_token() }}",
                         notificationName: notificationName,
                         value: value,
-                        
+
                     },
                     success: function(response) {
                         // Handle success response
@@ -347,6 +347,16 @@
                     $('#togel').prop('checked', false);
                 }
             });
+        });
+    </script>
+
+    {{-- Close success message --}}
+    <script>
+        $(document).ready(function() {
+
+            setTimeout(function() {
+                $("#successAlert").alert('close');
+            }, 3000);
         });
     </script>
 

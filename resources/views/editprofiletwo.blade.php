@@ -31,12 +31,14 @@
 
                         <div class="edit-input-bx">
 
-                            <form class="profile-edit-form" action="{{ route('updateProfile', ['id' => auth()->user()->id]) }}" method="POST"
+                            <form class="profile-edit-form"
+                                action="{{ route('update-profile', ['id' => auth()->user()->id]) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="input-box">
-                                    <input id="input-file" type="file" hidden name="profile" placeholder="Enter your name" value="{{ $user->profile_path ?? old('name') }}"
-                                    alt="no profile">
+                                    <input id="input-file" type="file" hidden name="profile"
+                                        placeholder="Enter your name" value="{{ $user->profile_path ?? old('name') }}"
+                                        alt="no profile">
 
                                     {{-- @if (isset($user->profile_path))
                                             <img src="{{ asset($user->profile_path) }}" alt="profile image">

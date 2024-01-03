@@ -26,7 +26,6 @@ class UserController extends Controller
         // Retrieve all users who have the 'carrier' role
      
         // First method +++++
-
         // $users = User::role('carrier')->get();
         // foreach( $users as $singleUser ){
         //     echo $singleUser->userDetails->phone_number . "<br>";
@@ -35,7 +34,6 @@ class UserController extends Controller
         // return view('dispatchersmanagement', compact('users'));
         
         // fetch data with pagination +++++
-
         $users = User::role('carrier')->paginate(2);
         return view('dispatchersmanagement', compact('users'));
 
@@ -97,11 +95,8 @@ class UserController extends Controller
     {   
         try {
             $userId = $request->input('user_id');
-            $nameedit = $request->input('nameedit');
-            $emailedit = $request->input('emailedit');
-            $phoneedit = $request->input('phoneedit');
 
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'nameedit' => 'required|string',
                 'emailedit' => 'required|email|unique:users,email',
                 'phoneedit' => 'required|numeric',
@@ -110,15 +105,32 @@ class UserController extends Controller
                 'phoneedit.numeric' => 'Phone must be a number',
             ]);
 
+            
+            // if ($validator->fails()) {
+            //     throw new \Exception($validator->errors());
+            // }
+            if ($validator->fails()) {
+                return response()->json([
+                    'errorvalidation' => $validator->errors(),
+                ], 422);
+            }
+            
+
             $user = User::find($userId);
 
             if (!$user) {
                 throw new \Exception('User not found');
             }
 
-            $user->name = $nameedit;
-            $user->email = $emailedit;
+            // Assigning values from the validated request ++++
+            $user->name = $request->input('nameedit');
+            $user->email = $request->input('emailedit');
             $user->save();
+
+            // Assigning values from the validated request
+            // $user->name = $validator['nameedit'];
+            // $user->email = $validator['emailedit'];
+            // $user->save();
 
             $userDetails = $user->userDetails;
 
@@ -127,25 +139,30 @@ class UserController extends Controller
                 $userDetails->user_id = $userId;
             }
 
-            $userDetails->phone_number = $phoneedit;
+            
+            $userDetails->phone_number = $request->input('phoneedit');
             $userDetails->save();
             
             return response()->json([
                 'user' => $user,
                 'userDetails' => $userDetails,
+                // 'errorvalidation' => $validation,
                 'successUpdate' => 'Update successful',
+                
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()], 500);
+                'error' => $e->getMessage(),
+            ],500);
         }
     }
 
+
     
    
-    // Data for editdata
-    public function editdata(Request $request)
+    // fetch Data for edit
+    public function fetchdata(Request $request)
     {
         try {
         $userId = $request->input('user_id');

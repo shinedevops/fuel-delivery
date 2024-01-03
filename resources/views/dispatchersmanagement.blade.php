@@ -85,7 +85,7 @@
                                 </div><br>
                                 <div class="table-data edit-user" data-user-id="{{ $details->id }}">
 
-                                    {{-- <a href="{{ route('editdata', ['user_id' => $details->id]) }}" type="button" --}}
+                                    {{-- <a href="{{ route('fetchdata', ['user_id' => $details->id]) }}" type="button" --}}
                                     {{-- class="fa-solid fa-pencil" data-bs-toggle="modal" --}}
                                     <i class="fa-solid fa-pencil" data-bs-toggle="modal"
                                         data-bs-target="#dispatcherEdit"></i>
@@ -142,7 +142,9 @@
                     fill="CurrentColor" />
             </svg>
         </div>
-        {{ $users->links('pagination::simple-bootstrap-5') }}
+        {{-- {{ $users->links('pagination::simple-bootstrap-5') }} --}}
+        {{ $users->render('custom-pagination') }}
+
         {{-- {{ $users->onEachSide(1)->withQueryString()->onEachSide(1)->links('pagination::simple-bootstrap-4') }} --}}
 
         {{-- <div class="pagination-no-bx">
@@ -172,7 +174,6 @@
         </div>
     </div>
 @endsection
-
 
 
 @section('editcontent')
@@ -410,13 +411,16 @@
         $(document).ready(function() {
             $('.edit-user').on('click', function(event) {
                 event.preventDefault();
+                $('#name-errors').text('');
+                $('#email-errors').text('');
+                $('#phone-errors').text('');
                 var userId = $(this).data('user-id');
                 // alert("Are you sure you want to Edit this user?");
 
                 // if (confirm('Are you sure you want to Edit this user?')) {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('editdata') }}',
+                    url: '{{ route('fetchdata') }}',
                     data: {
                         "_token": "{{ csrf_token() }}",
                         "user_id": userId,
@@ -465,12 +469,12 @@
         $(document).ready(function() {
             $('#editbutton').on('click', function(event) {
                 event.preventDefault();
-                // location->reload();
+
                 var userId = $('#editUserId').val();
                 var Name = $('#name_detail').val();
                 var Phone = $('#phone_number').val();
                 var Email = $('#email_details').val();
-                console.log(userId);
+
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('edituser') }}',
@@ -482,41 +486,68 @@
                         "phoneedit": Phone,
                     },
                     success: function(response) {
-                        // Handle success response here
+
                         var successMessage =
                             '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                             response.successUpdate +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             '</div>';
 
-                        $('#errorMessage').empty(); // Clear any previous messages
-                        $('#errorMessage').append(successMessage); // Append success message
+                        // $('#errorMessage').empty().append(successMessage);
+                        // Prepend the success message to the form
+                        $('.addnew-dis-form').prepend(successMessage);
+
+                        // Automatically hide the alert after 3 seconds (3000 milliseconds)
+                        setTimeout(function() {
+                            $('.alert.alert-success').alert('close');
+                        }, 3000);
+
+
+                        $('#name-errors').text('');
+                        $('#email-errors').text('');
+                        $('#phone-errors').text('');
 
                     },
                     error: function(xhr, status, error) {
-                        var errors = JSON.parse(xhr.responseText);
-                        console.log(errors);
-
-                        $('#name-errors').html('Error: ' + (
-                            errors.error ? errors.error.nameedit || '' : ''
-                        ));
-                        $('#email-errors').html('Error: ' + (
-                            errors.error ? errors.error || '' : ''
-                        ));
-                        $('#phone-errors').html('Error: ' + (
-                            errors.error ? errors.error.phoneedit || '' : ''
-                        ));
-
+                        // Clear any previous validation error messages
+                        $('#name-errors').text('');
+                        $('#email-errors').text('');
+                        $('#phone-errors').text('');
+                        var errors = xhr.responseJSON;
+                        console.log(errors.errorvalidation.emailedit);
+                        // Display validation errors in fields
+                        $('#name-errors').text(errors.errorvalidation ? errors.errorvalidation
+                            .nameedit : '');
+                        $('#email-errors').text(errors.errorvalidation ? errors.errorvalidation
+                            .emailedit : '');
+                        $('#phone-errors').text(errors.errorvalidation ? errors.errorvalidation
+                            .phoneedit : '');
                     }
-
 
                 });
             });
         });
     </script>
 
+    {{-- {{ displaymodal if any error }} --}}
     <script>
         $(document).ready(function() {
+            $('.invalid-txt').each(function() {
+                var errorMessage = $(this).text().trim();
+                if (errorMessage.length > 0) {
+                    // Show the modal
+                    $('#dispatchersManagementPopup').modal('show');
+                    // Exit the loop after the first error message is found
+                    return false;
+                }
+            });
+        });
+    </script>
+
+    {{-- Add user form validation --}}
+    <script>
+        $(document).ready(function() {
+
             $("#registerform").validate({
                 rules: {
                     name: {
@@ -532,7 +563,9 @@
                     },
                     phone: {
                         required: true,
-                        // minlength: 10,
+                        digits: true,
+                        minlength: 10,
+
                     }
                 },
                 messages: {
@@ -549,6 +582,8 @@
                     },
                     phone: {
                         required: 'Phone is required',
+                        minlength: "must be at least 10 digits",
+                        digits: "Please enter only digits",
                     }
 
                 }

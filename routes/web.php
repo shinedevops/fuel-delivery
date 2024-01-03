@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,37 +36,50 @@ Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class,'logout'
 Route::middleware(['auth'])->group(function () {
     // Routes that require authentication
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/completeprofile', [UserDetailController::class, 'completeProfile'])->name('complete.profile');
-    Route::get('/userdashboard', [UserDetailController::class, 'userdash'])->name('user.dashboard');
-    Route::post('/store_user_details', [UserDetailController::class, 'store'])->name('store.userDetails');
 
-    Route::get('setting/profile/{id}', [ProfileController::class, 'editsetting'])->name('setting-profile');
-    Route::get('edit/profile/{user_id}', [ProfileController::class, 'editprofile'])->name('edit-profile');
-    Route::post('update/profile/{id}', [ProfileController::class, 'update'])->name('updateProfile');
+    Route::fallback(function () {
+    return("Wrong URL");
+    });
 
+    Route::controller(UserDetailController::class)->group( function(){
+        Route::get('/completeprofile', 'completeProfile')->name('complete.profile');
+        Route::get('/userdashboard', 'userdash')->name('user.dashboard');
+        Route::post('/store_user_details', 'store')->name('store.userDetails');
+    });
+    
+    
+    // Route for Driver_update
+    Route::prefix('profile')->group( function() {
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get('/setting/{id}', 'editsetting')->name('setting-profile');
+            Route::get('/edit/{user_id}', 'editprofile')->name('edit-profile');
+            Route::post('/update/{id}', 'update')->name('update-profile');
+        });
+    });
+   
     // reset password
     Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('changePassword');
     // for Notification
     Route::post('/toggleNotification', [NotificationController::class, 'toggleNotification'])->name('notification');
 
+    
+    // Route for Dispatcher
+    Route::prefix('dispatcher')->group(function () {
+        Route::controller(UserController::class)->group(function () {
+            Route::get('/page', [UserController::class, 'dispatcherpage'])->name('dispatcher');
+            Route::post('/add/{id}', 'add')->name('dispatcheradd');
+            Route::post('/deletecarrier', 'delete')->name('deleteuser');
+            Route::post('/fetchdata',  'fetchdata')->name('fetchdata');
+            Route::post('/edit', 'edit')->name('edituser');
+        });
+    });
 
-    // Roude for Shidebar
-    // Route::view('/dispatcher/page', 'dispatchersmanagement')->name('dispatcher');
-    Route::get('/dispatcher/page', [UserController::class, 'dispatcherpage'])->name('dispatcher');
-    Route::post('/dispatcher/add/{id}', [UserController::class, 'add'])->name('dispatcheradd');
-    Route::post('/deletecarrier', [UserController::class, 'delete'])->name('deleteuser');
-    Route::post('/dispatcher/editdata', [UserController::class, 'editdata'])->name('editdata');
-
-    Route::post('/dispatcher/edit', [UserController::class, 'edit'])->name('edituser');  // if edit by route then add id
     
     // Serching 
     // Route::post('/dispatche/search', [UserController::class, 'searchData'])->name('search');
     Route::match(['get', 'post'], '/dispatche/search', [UserController::class, 'searchData'])->name('search');
 
-
-
 });
-
 
 
 //Admin Routes +++++
