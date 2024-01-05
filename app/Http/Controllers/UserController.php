@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Providers\RouteServiceProvider;
-use App\Models\User;
-use App\Models\UserDetail;
+use App\Models\{User,UserDetail};
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -11,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles; // for permission role
 use Spatie\Permission\Models\Role;
 use Illuminate\Pagination\Paginator;
+use App\Notifications\UserSendNotification; // include for Send Notification to user
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable; 
+use Illuminate\Support\Str; // Random password in string
 
 use Illuminate\Http\Request;
 
@@ -18,61 +23,65 @@ class UserController extends Controller
 {
 
     use HasRoles;  // for role
+    use Notifiable;
 
     public function dispatcherpage(Request $request)
     {
         $user = auth()->user();
         $id =$user->id;
-        // Retrieve all users who have the 'carrier' role
-     
-        // First method +++++
-        // $users = User::role('carrier')->get();
-        // foreach( $users as $singleUser ){
-        //     echo $singleUser->userDetails->phone_number . "<br>";
-        // }
-        // exit;
-        // return view('dispatchersmanagement', compact('users'));
+
+        // Flag to determine active element
+        // $activeElement = 'active'; // Change this value to match your specific logic
+        $activeElement = \Route::currentRouteName();
+        // dd($activeElement);
+
         
         // fetch data with pagination +++++
         $users = User::role('carrier')->paginate(2);
-        return view('dispatchersmanagement', compact('users'));
+        return view('dispatchersmanagement', compact('users','activeElement'));
 
     }
 
-    // Add user
     public function add(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email', 
-            'phone' => 'required|numeric', 
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|numeric',
         ], [
-            'email.unique' => 'Email already exists', 
-            'phone.numeric' => 'Phone must be a number', 
+            'email.unique' => 'Email already exists',
+            'phone.numeric' => 'Phone must be a number',
         ]);
 
         try {
             $user = auth()->user();
+            $password = Str::random(10);
 
             $newUser = User::create([
                 'edit_by' => $user->id,
                 'name' => $validatedData['name'],
+                'password' => Hash::make($password),
                 'email' => $validatedData['email'],
             ]);
             $newUser->assignRole('carrier');
 
             $phone = $validatedData['phone'];
 
-            $userDetails = UserDetail::updateOrCreate(
+            UserDetail::updateOrCreate(
                 ['user_id' => $newUser->id],
                 ['phone_number' => $phone]
             );
-
-            return redirect()->back()->with('success', 'Dispatcher details added successfully');
+            $emails = $newUser->email; // Retrieve the email for the notification
+            $user_id = $newUser->id;
+            // dd($password);
+            Notification::send($newUser, new UserSendNotification($emails,$user_id,$password));
+            
+            return redirect()->back()->with('success', 'Dispatcher added successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
 
 

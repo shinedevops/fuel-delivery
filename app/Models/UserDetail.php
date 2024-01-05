@@ -18,6 +18,7 @@ class UserDetail extends Model
         'company_size',
         'driving_licence',
         'date',
+        'invitation_status',
     ];
 
 

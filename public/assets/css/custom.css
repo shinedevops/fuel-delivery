@@ -145,7 +145,7 @@
     display: flex;
     align-items: center;
 }
-
+/* for active sidebar */
 .dashboard-link-list li a:hover,
 .dashboard-link-list .active a {
     background: #fff;

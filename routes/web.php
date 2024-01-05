@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\UserDetailController;
+use App\Http\Controllers\VisitController;
+
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ProfileController;
 // use App\Http\Controllers\DriverController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+// use App\Http\Controllers\NotificationEmailController;
 
 
 /*
@@ -22,21 +25,20 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    // return view('welcome');
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return redirect('/login');
+// });
+Route::redirect('/', '/login');
 
 Auth::routes([
-    'verify' => True,
+    'verify' => True, 
 ]);
-
 Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class,'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    // Routes that require authentication
+    
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
     Route::fallback(function () {
     return("Wrong URL");
     });
@@ -66,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
     // Route for Dispatcher
     Route::prefix('dispatcher')->group(function () {
         Route::controller(UserController::class)->group(function () {
-            Route::get('/page', [UserController::class, 'dispatcherpage'])->name('dispatcher');
+            Route::get('/list', [UserController::class, 'dispatcherpage'])->name('dispatcher');
             Route::post('/add/{id}', 'add')->name('dispatcheradd');
             Route::post('/deletecarrier', 'delete')->name('deleteuser');
             Route::post('/fetchdata',  'fetchdata')->name('fetchdata');
@@ -76,17 +78,29 @@ Route::middleware(['auth'])->group(function () {
 
     
     // Serching 
-    // Route::post('/dispatche/search', [UserController::class, 'searchData'])->name('search');
-    Route::match(['get', 'post'], '/dispatche/search', [UserController::class, 'searchData'])->name('search');
+    // Route::post('/dispatcher/search', [UserController::class, 'searchData'])->name('search');
+    Route::match(['get', 'post'], '/dispatcher/search', [UserController::class, 'searchData'])->name('search');
+
+    // routes/web.php
+
+    Route::get('/visit/{id}', [VisitController::class, 'visituser'])->name('visit');
+    Route::get('/visitlogin', function () {
+     return view('auth.login');
+    });
+
 
 });
+
+    
 
 
 //Admin Routes +++++
 // Route::middleware(['auth:admin'])->group(function () {
 // Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
-// });
+// })
+
+// send Notification to user email whith name email and random create password ,create MailNotificationController amd UserNotification with route using mailtrap laravel 10
 
 
 

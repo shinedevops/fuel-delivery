@@ -35,6 +35,7 @@
                         <th>Email</th>
                         <th>Phone Number</th>
                         <th>Company Name</th>
+                        <th>Invitation</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -74,6 +75,15 @@
                                 <div class="table-data">
                                     <i class="fa-solid fa-building"></i>
                                     {{ $details->userDetails->company_name ?? 'NA' }}
+
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class="table-data">
+                                    <i class="fa-solid"></i>
+                                    {{ $details->invitation_status ?? 'False' }}
+                                    {{-- {{ $details->UserDetails->invitation_status ?? 'False' }} --}}
 
                                 </div>
                             </td>

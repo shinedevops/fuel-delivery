@@ -60,7 +60,21 @@
             });
         });
     </script>
-    <script>
+    
+    {{-- add class for sidebar --}}
+    {{-- <script>
+        $(document).ready(function () {
+            $(function () {
+                $('li a').click(function (e) {
+                    e.preventDefault();
+                    $('a').removeClass('active');
+                    $(this).addClass('active');
+                });
+            });
+        });
+    </script> --}}
+
+    <script> 
         // This assumes you want to target the third <li> element, change color on its <a> tag when clicked
         $(document).ready(function() {
             $('.dashboard-link-list li:nth-child(3) a').on('click', function() {

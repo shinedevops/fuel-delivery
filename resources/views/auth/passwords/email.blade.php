@@ -66,11 +66,14 @@
                                     </div> --}}
                                 </div>
                             </form>
-
                             <div class="login-footer-text">
+                                <span>Already have an account?</span> <a href="{{ route('login') }}"
+                                    class="login-footer-link">Log In</a>
+                            </div>
+                            {{-- <div class="login-footer-text">
                                 <span>Don’t have an account?</span> <a href="{{ route('register') }}"
                                     class="login-footer-link">Sign Up</a>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="login-icon-wrapper">
                             <div class="login-icon-box">
