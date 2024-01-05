@@ -51,12 +51,11 @@ Route::middleware(['auth'])->group(function () {
     
     
     // Route for Driver_update
-    Route::prefix('profile')->group( function() {
-        Route::controller(ProfileController::class)->group(function () {
-            Route::get('/setting/{id}', 'editsetting')->name('setting-profile');
-            Route::get('/edit/{user_id}', 'editprofile')->name('edit-profile');
-            Route::post('/update/{id}', 'update')->name('update-profile');
-        });
+    Route::prefix('profile')->controller(ProfileController::class)->group( function() {
+        Route::get('/setting/{id}', 'editsetting')->name('setting-profile');
+        Route::get('/edit/{user_id}', 'editprofile')->name('edit-profile');
+        Route::post('/update/{id}', 'update')->name('update-profile');
+        
     });
    
     // reset password
@@ -66,23 +65,19 @@ Route::middleware(['auth'])->group(function () {
 
     
     // Route for Dispatcher
-    Route::prefix('dispatcher')->group(function () {
-        Route::controller(UserController::class)->group(function () {
-            Route::get('/list', [UserController::class, 'dispatcherpage'])->name('dispatcher');
-            Route::post('/add/{id}', 'add')->name('dispatcheradd');
-            Route::post('/deletecarrier', 'delete')->name('deleteuser');
-            Route::post('/fetchdata',  'fetchdata')->name('fetchdata');
-            Route::post('/edit', 'edit')->name('edituser');
-        });
+    Route::prefix('dispatcher')->controller(UserController::class)->name("dispatchers.")->group(function () {
+        Route::get('/list', 'dispatcherpage')->name('list');
+        Route::post('/add/{id}', 'add')->name('add');
+        Route::post('/deletecarrier', 'delete')->name('delete');
+        Route::post('/fetchdata',  'fetchdata')->name('fetchdata');
+        Route::post('/edit', 'edit')->name('update');
+        // Serching 
+        // Route::post('/dispatcher/search', [UserController::class, 'searchData'])->name('search');
+        Route::match(['get', 'post'], '/search', 'searchData')->name('search');
+    
     });
 
-    
-    // Serching 
-    // Route::post('/dispatcher/search', [UserController::class, 'searchData'])->name('search');
-    Route::match(['get', 'post'], '/dispatcher/search', [UserController::class, 'searchData'])->name('search');
-
     // routes/web.php
-
     Route::get('/visit/{id}', [VisitController::class, 'visituser'])->name('visit');
     Route::get('/visitlogin', function () {
      return view('auth.login');
@@ -92,15 +87,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
     
-
-
 //Admin Routes +++++
 // Route::middleware(['auth:admin'])->group(function () {
 // Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 // })
-
-// send Notification to user email whith name email and random create password ,create MailNotificationController amd UserNotification with route using mailtrap laravel 10
 
 
 
