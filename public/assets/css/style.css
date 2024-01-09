@@ -1063,3 +1063,13 @@ img {
 .cv-daily-wrapper {
     padding: 17px 23px 40px;
 }
+
+/* Add CSS */
+.page-item:last-child .page-link {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+ 
+}
+.page-link{
+    padding: 0.5rem 0.75rem;
+}

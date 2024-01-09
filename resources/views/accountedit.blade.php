@@ -32,7 +32,7 @@
                         <div class="input-box">
                             {{-- for profile input --}}
                             <input id="input-file" type="file" hidden name="profile" placeholder="Choose image"
-                                value="{{ $user->profile_path ?? old('profile') }}" alt="no profile">
+                            value="{{ $user->profile_path ?? old('profile') }}" alt="no profile">
 
 
                             <div class="form-group">

@@ -6,11 +6,10 @@
             <div class="formfield">
                 {{-- <input type="text" id="search_data" class="form-control" name="Search" placeholder="Type to Search.."> --}}
                 <a href="#" class="button search-btn" id="form_submit"><i class="fa-solid fa-magnifying-glass"></i>Search</a>
-                <form id="searchdata" method="POST" action="{{ route('dispatchers.search') }}" enctype="multipart/form-data"
-                    class="addnew-dis-form">
+                <form id="searchdata" method="POST" action="{{ route('dispatchers.search') }}" enctype="multipart/form-data" class="addnew-dis-form">
                     @csrf
-                    <!-- Your form fields here -->
-                    <input type="text" id="search_data" class="form-control" name="search" placeholder="Type to Search.." value="{{ old('search') }}">
+
+                    <input type="text" id="search_data" class="form-control" name="search" placeholder="Type to Search.." value="{{ $search ?? '' }}">
                     <button type="submit" style="display: none"></button>
 
                 </form>
@@ -22,8 +21,12 @@
 
         </div>
     </div>
+    @if(session('success'))
+        <div class="alert alert-success"  id="successAlert">
+            {{ session('success') }}
+        </div>
+    @endif
 
-    {{-- listing dtat user --}}
     <div class="db-table-box">
         <div class="tb-table">
             <table>
@@ -34,6 +37,7 @@
                         <th>Phone Number</th>
                         <th>Company Name</th>
                         <th>Invitation</th>
+                        <th>Role</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -80,7 +84,14 @@
 
                                 </div>
                             </td>
-
+                            {{-- Find roll of each user --}}
+                            <td>
+                                <div class="table-data">
+                                    <i class="fa-solid"></i>
+                                    {{ $details->getRoleNames()->implode(', ')  ?? 'NA'}}
+                                </div>
+                            </td>
+                                
                             <td>
 
                                 <div class="table-data delete-user" data-user-id="{{ $details->id }}">
@@ -137,43 +148,18 @@
             </table>
         </div>
     </div>
+
     <div class="db-pagination-bx">
-        <div class="pagination-prev">
-            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
-                <path d="M5.82554 11.7343C5.93433 11.7343 6.04327 11.6929 6.12635 11.6098C6.29252 11.4436 6.29252 11.1743 6.12635 11.0081L1.32272 6.20465L6.12621 1.40116C6.29238 1.235 6.29238 0.965702 6.12621 0.799674C5.96005 0.633507 5.69075 0.633507 5.52458 0.799674L0.420282 5.90398C0.340516 5.98374 0.295726 6.09199 0.295726 6.20479C0.295726 6.3176 0.340516 6.42584 0.420282 6.50561L5.52472 11.6098C5.60781 11.6929 5.7166 11.7343 5.82554 11.7343Z" fill="CurrentColor" />
-            </svg>
-        </div>
+        
         {{-- {{ $users->links('pagination::simple-bootstrap-5') }} --}}
-        {{ $users->render('custom-pagination') }}
-
-        {{-- {{ $users->onEachSide(1)->withQueryString()->onEachSide(1)->links('pagination::simple-bootstrap-4') }} --}}
-
-        {{-- <div class="pagination-no-bx">
-            <div class="pagination-no active">
-                1
-            </div>
-            <div class="pagination-no">
-                2
-            </div>
-            <div class="pagination-no">
-                3
-            </div>
-            <div class="pagination-no">
-                ...
-            </div>
-            <div class="pagination-no">
-                10
-            </div>
-        </div> --}}
-
-        <div class="pagination-next active">
-            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
-                <path d="M1.3356 11.7344C1.2268 11.7344 1.11786 11.693 1.03478 11.6099C0.868615 11.4437 0.868615 11.1744 1.03478 11.0083L5.83841 6.20477L1.03492 1.40129C0.868753 1.23512 0.868753 0.965824 1.03492 0.799796C1.20109 0.633629 1.47038 0.633629 1.63655 0.799796L6.74085 5.9041C6.82062 5.98386 6.86541 6.09211 6.86541 6.20491C6.86541 6.31772 6.82062 6.42596 6.74085 6.50573L1.63641 11.6099C1.55333 11.693 1.44453 11.7344 1.3356 11.7344Z" fill="CurrentColor" />
-            </svg>
-        </div>
+        {{-- {{ $users->onEachSide(1)->withQueryString()->onEachSide(1)->links('pagination::simple-bootstrap-5') }} --}}
+        {{-- {{ $users->render('custom-pagination') }} --}}
+        {{-- {{ $users->links('custom-pagination') }} --}}
+        {{$users}}
+     
     </div>
+    
 @endsection
-
 
 @section('editcontent')
     {{-- Add User --}}
@@ -181,7 +167,7 @@
         aria-labelledby="DispatchersManagementPopLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-
+            
                 <div class="modal-body">
                     <div class="addnew-dis-box">
                         <div class="popup-btn-close" data-bs-dismiss="modal" aria-label="Close"><svg
@@ -250,6 +236,24 @@
                                         <span class="invalid-txt" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                 <div class="form-group">
+                                    Role:
+                                    <div class="formfield">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="carrier" name="role" value="carrier">
+                                            <label class="form-check-label" for="carrier" style="color:#6c6767">Carrier</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="ditributor" name="role" value="distributor">
+                                            <label class="form-check-label" for="ditributor" style="color:#6c6767">Distributor</label>
+                                        </div>
+                                    </div>
+                                    @error('role')
+                                        <span class="invalid-txt" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
 
                             <button type="submit" class="button primary-btn full-btn add">Send Invitation</button>
@@ -284,8 +288,29 @@
                         <form id="registerformedit" class="addnew-dis-form" action="" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" id="editUserId" name="id" value="">
+                            {{-- id for edit --}}
+                            <input type="hidden" id="editUserId" name="id" value="">  
+
                             <div class="input-box">
+                                <div class="input-box">
+                                <div class="upload-img">
+                                    <div class="main-profile-image-box">
+                                        <img id="image_profile" src="" class="main-profile-image" alt="profile">
+                                        <div class="file file--upload">
+                                            <label for="input-file">
+                                                <i class="fa-solid fa-camera"></i>
+                                            </label>
+                                            {{-- <input id="input-file" type="file" hidden name="imageedit" accept="image/*"> --}}
+                                            <input id="input-file" type="file" hidden="" name="imageedit" placeholder="Choose image" value="" alt="no profile">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="invalid-txt" id="image-errors"></span>
+                                @error('imageedit')
+                                    <span class="invalid-txt image-error" role="alert">{{ $message }}</span> <br>
+                                @enderror
+                                
                                 <div class="form-group">
                                     <div class="formfield">
                                         <input type="text" class="form-control" name="nameedit" id="name_detail"
@@ -332,7 +357,6 @@
                             <div id="errorMessage"></div>
                             {{-- <div class="alert alert-success alert-dismissible fade show" role="alert" id="errorMessage"> </div> --}}
 
-                            {{-- <span class="alert alert-success alert-dismissible fade show" role="alert" id="errorMessage"></span> --}}
                             <button type="submit" class="button primary-btn full-btn edit"
                                 id="editbutton">Update</button>
 
@@ -413,10 +437,10 @@
                 $('#name-errors').text('');
                 $('#email-errors').text('');
                 $('#phone-errors').text('');
+                $('#image-errors').text('');
+                // ... (other error resetting logic)
                 var userId = $(this).data('user-id');
-                // alert("Are you sure you want to Edit this user?");
 
-                // if (confirm('Are you sure you want to Edit this user?')) {
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('dispatchers.fetchdata') }}',
@@ -425,36 +449,35 @@
                         "user_id": userId,
                     },
                     success: function(response) {
-
-                        // Access the 'name' property within the 'user' object
+                        
                         console.log(response.user.name);
-                        // Set values in modal fields
-                        var editUrl = '{{ route('dispatchers.update', ['id' => '']) }}/' + (
-                            response
-                            .user.id ?? 0);
-                        // $('#registerformedit').attr('action', editUrl);
+                        var editUrl = '{{ route('dispatchers.update', ['id' => '']) }}/' + (response.user.id ?? 0);
+
                         $('#editUserId').val(response.user.id);
                         $('#email_details').val(response.user.email);
                         $('#name_detail').val(response.user.name);
                         $('#phone_number').val(response.userDetails.phone_number);
+                        // $('#input-file').val(response.user.profile_path);
+
+                        // Setting image src and handling if it's not available
+                        var imagePath = response.user.profile_path ? '{{ asset('storage/') }}' + '/' + response.user.profile_path : '{{ asset('assets/images/table-img1.png') }}';
+                        $('#image_profile').attr('src', imagePath);
 
                         // Show the modal after setting the values
                         // $('#dispatcherEdit').modal('show');
-
                     },
                     error: function(xhr, status, error) {
+
                         console.log(error);
                     }
                 });
-                // } else {
-                //     location.reload();
-                // }
             });
         });
+
     </script>
 
     {{-- disable modal --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('.popup-btn-close').on('click', function(event) {
                 location.reload();
@@ -462,87 +485,72 @@
 
             });
         });
-    </script>
+    </script> --}}
 
     {{-- update user  --}}
+  
     <script>
         $(document).ready(function() {
-            $('#editbutton').on('click', function(event) {
-                event.preventDefault();
+        $('#editbutton').on('click', function(event) {
+            event.preventDefault();
 
-                var userId = $('#editUserId').val();
-                var Name = $('#name_detail').val();
-                var Phone = $('#phone_number').val();
-                var Email = $('#email_details').val();
+            var userId = $('#editUserId').val();
+            var Name = $('#name_detail').val();
+            var Phone = $('#phone_number').val();
+            var Email = $('#email_details').val();
+            var Imagepath = $('#input-file').val();
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('dispatchers.update') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        "user_id": userId,
-                        "nameedit": Name,
-                        "emailedit": Email,
-                        "phoneedit": Phone,
-                    },
-                    success: function(response) {
+            var formData = new FormData();
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('user_id', userId);
+            formData.append('nameedit', Name);
+            formData.append('emailedit', Email);
+            formData.append('phoneedit', Phone);
+            formData.append('imageedit', Imagepath);
 
-                        var successMessage =
-                            '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                            response.successUpdate +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                            '</div>';
+            $.ajax({
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                url: '{{ route('dispatchers.update') }}',
+                data: formData,
+                cache: false,
+                enctype: 'multipart/form-data',
+                success: function(response) {
+                    var successMessage = '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                        response.successUpdate +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                        '</div>';
 
-                        // $('#errorMessage').empty().append(successMessage);
-                        // Prepend the success message to the form
-                        $('.addnew-dis-form').prepend(successMessage);
+                    $('#registerformedit').prepend(successMessage);
 
-                        // Automatically hide the alert after 3 seconds (3000 milliseconds)
-                        setTimeout(function() {
-                            $('.alert.alert-success').alert('close');
-                        }, 3000);
+                    setTimeout(function() {
+                        $('.alert.alert-success').alert('close');
+                    }, 3000);
 
+                    $('#name-errors').text('');
+                    $('#email-errors').text('');
+                    $('#phone-errors').text('');
+                    $('#image-errors').text('');
+                },
+                error: function(xhr, status, error) {
+                    $('#name-errors').text('');
+                    $('#email-errors').text('');
+                    $('#phone-errors').text('');
+                    $('#image-errors').text('');
+                    var errors = xhr.responseJSON;
 
-                        $('#name-errors').text('');
-                        $('#email-errors').text('');
-                        $('#phone-errors').text('');
-
-                    },
-                    error: function(xhr, status, error) {
-                        // Clear any previous validation error messages
-                        $('#name-errors').text('');
-                        $('#email-errors').text('');
-                        $('#phone-errors').text('');
-                        var errors = xhr.responseJSON;
-                        console.log(errors.errorvalidation.emailedit);
-                        // Display validation errors in fields
-                        $('#name-errors').text(errors.errorvalidation ? errors.errorvalidation
-                            .nameedit : '');
-                        $('#email-errors').text(errors.errorvalidation ? errors.errorvalidation
-                            .emailedit : '');
-                        $('#phone-errors').text(errors.errorvalidation ? errors.errorvalidation
-                            .phoneedit : '');
-                    }
-
-                });
-            });
-        });
-    </script>
-
-    {{-- {{ displaymodal if any error }} --}}
-    <script>
-        $(document).ready(function() {
-            $('.invalid-txt').each(function() {
-                var errorMessage = $(this).text().trim();
-                if (errorMessage.length > 0) {
-                    // Show the modal
-                    $('#dispatchersManagementPopup').modal('show');
-                    // Exit the loop after the first error message is found
-                    return false;
+                    $('#name-errors').text(errors.errorvalidation ? errors.errorvalidation.nameedit : '');
+                    $('#email-errors').text(errors.errorvalidation ? errors.errorvalidation.emailedit : '');
+                    $('#phone-errors').text(errors.errorvalidation ? errors.errorvalidation.phoneedit : '');
+                    $('#image-errors').text(errors.errorvalidation ? errors.errorvalidation.imageedit : '');
                 }
             });
         });
+    });
+
     </script>
+
 
     {{-- searching Button Submit --}}
     <script>
@@ -559,12 +567,11 @@
         });
     </script>
 
-
-    {{-- Add user form validation --}}
+    {{-- Add validation for User --}}
     <script>
         $(document).ready(function() {
 
-            $("#registerform").validate({
+            var validator = $("#registerform").validate({
                 rules: {
                     name: {
                         required: true,
@@ -583,6 +590,7 @@
                         minlength: 10,
 
                     }
+                    
                 },
                 messages: {
                     // Error messages for each field...
@@ -601,26 +609,55 @@
                         minlength: "must be at least 10 digits",
                         digits: "Please enter only digits",
                     }
-
+                
                 }
-            });
 
-            // Click event handler for the "Next" button
+                
+            });
+            $('body').on('click', function (e) {
+              validator.resetForm(); // Resetting the form validation
+            });
 
         });
     </script>
-
-    {{-- for update form validation --}}
-    {{-- <script>
+    <script>
         $(document).ready(function() {
-            $("#registerformedit").validate({
+
+            setTimeout(function() {
+                $("#successAlert").alert('close');
+            }, 3000);
+        });
+    </script>
+
+    {{-- add class in pagination  --}}
+    <script>
+        // Get all elements with class "pagination-no"
+        const paginationNumbers = document.querySelectorAll('.pagination-no');
+        
+        // Loop through each pagination number
+        paginationNumbers.forEach(paginationNumber => {
+            paginationNumber.addEventListener('click', function() {
+                // Remove "active" class from all pagination numbers
+                paginationNumbers.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Add "active" class to the clicked pagination number
+                this.classList.add('active');
+                });
+            });
+    </script>
+
+    {{-- validation for Update user--}}
+    <script>
+        $(document).ready(function() {
+            var validatoredit = $("#registerformedit").validate({
                 rules: {
                     nameedit: {
                         required: true,
                         minlength: 3,
                         maxlength: 50,
                         pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/
-
                     },
                     emailedit: {
                         required: true,
@@ -628,11 +665,9 @@
                     },
                     phoneedit: {
                         required: true,
-                        // minlength: 10,
                     }
                 },
                 messages: {
-                    // Error messages for each field...
                     nameedit: {
                         required: 'Name is required',
                         minlength: 'Name must be 3-50 characters long',
@@ -646,14 +681,35 @@
                     phoneedit: {
                         required: 'Phone is required',
                     }
-
                 }
             });
 
-            // Click event handler for the "Next" button
-
+            
         });
-    </script> --}}
 
+    </script>
+    
 
+    {{-- {{ display modal if any error in form,add user}} --}}
+    <script>
+        $(document).ready(function() {
+            $('.invalid-txt').each(function() {
+                var errorMessage = $(this).text().trim();
+                
+                if (errorMessage.length > 0) {
+                    // Show the modal
+                    $('#dispatchersManagementPopup').modal('show');
+                    // Exit the loop after the first error message is found
+                    return false;
+                }
+                
+            });
+            // $('#dispatchersManagementPopup').on('hidden.bs.modal', function (e) {
+            //     $('#dispatchersManagementPopup')[0].reset();
+            // });
+               
+        });
+            
+    </script>
+    
 @stop

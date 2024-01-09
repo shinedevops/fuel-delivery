@@ -1,0 +1,83 @@
+<!-- Pagination -->
+
+{{-- {{ $users->links('pagination::simple-bootstrap-5') }} --}}
+{{ $users->render('custom-pagination') }}
+
+{{-- {{ $users->onEachSide(1)->withQueryString()->onEachSide(1)->links('pagination::simple-bootstrap-4') }} --}}
+
+{{-- <div class="pagination-no-bx">
+    <div class="pagination-no active">
+        1
+    </div>
+    <div class="pagination-no">
+        2
+    </div>
+    <div class="pagination-no">
+        3
+    </div>
+    <div class="pagination-no">
+        ...
+    </div>
+    <div class="pagination-no">
+        10
+    </div>
+</div> --}}
+<!-- Script  jquery for pagination  -->
+
+{{-- add class in pagination --}}
+<script>
+    // Get elements for pagination
+    const prevButton = document.querySelector('.pagination-prev');
+    const nextButton = document.querySelector('.pagination-next');
+    const paginationNumbers = document.querySelectorAll('.pagination-no');
+
+    // Previous button click event
+    prevButton.addEventListener('click', function () {
+
+        console.log('Previous button clicked');
+    });
+
+    // Next button click event
+    nextButton.addEventListener('click', function () {
+
+        console.log('Next button clicked');
+    });
+
+    // Click event for each pagination number
+    paginationNumbers.forEach(paginationNumber => {
+        paginationNumber.addEventListener('click', function () {
+            // Remove "active" class from all pagination numbers
+            paginationNumbers.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add "active" class to the clicked pagination number
+            this.classList.add('active');
+
+            // Logic to go to the respective page associated with this number
+            // Implement based on your pagination logic
+            console.log('Clicked on page ' + this.textContent);
+        });
+    });
+</script>
+
+
+<!-- Searching Data -->
+
+$users = User::role(['carrier', 'distributor'])
+->where('name', 'LIKE', "%$search%")
+->orWhere('email', 'LIKE', "%$search%")
+->paginate(2);
+
+<!-- 2nd method -->
+$users = User::role(['carrier', 'distributor'])
+->where(function ($query) use ($search) {
+$query->where('name', 'LIKE', "%$search%")
+->orWhere('email', 'LIKE', "%$search%")
+->orWhereHas('userDetails', function ($query) use ($search) {
+$query->where('company_name', 'LIKE', "%$search%");
+});
+})
+->paginate(2);
+
+ <!-- Image show{{-- <input id="input-file" type="file" hidden="" name="profile" placeholder="Choose image" value="" alt="no profile"> --}}
